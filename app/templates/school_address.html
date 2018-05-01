@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ current_user.school.school_name }}'s Address</h1>
+</div>
+<h3></h3>
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+Dear {{ user.username }},
+
+Some welcome text to the parent.
+
+Sincerely,
+
+The PSA One Team
+
+Note: replies to this email address are not monitored.

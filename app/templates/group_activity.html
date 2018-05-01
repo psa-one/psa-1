@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}PSA-ONE{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myList li").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+
+        $("#checkAll").change(function () {
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        });
+    </script>
+
+
+{% endblock %}
+
+{% block page_content %}
+
+<div class="page-header">
+    <h1>Group Activity</h1>
+</div>
+
+<div class="col-md-6">
+    <div>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div>
+                <p><strong>Step 1:</strong> {{ form.activity.label }}</p>
+                {{ form.activity(class="form-control") }}
+            </div>
+            <br />
+            <div>
+
+                <div>
+                    <p><strong>Step 2: Choose students in activity group</strong></p>
+                    <input class="form-control" id="myInput" type="text" placeholder="Search students...">
+                    <br />
+                    <p><input type="checkbox" id="checkAll"> <span>&nbsp</span>Select/Deselect All</p>
+                        <ul class="list-group" id="myList">
+                            <li class="list-group-item">{{ form.students }}</li>
+                        </ul>
+                </div>
+
+            </div>
+            <div>{{ form.submit(class="btn btn-primary") }}</div>
+        </form>
+    </div>
+
+</div>
+<br />
+{% endblock %}

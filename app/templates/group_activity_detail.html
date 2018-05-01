@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Group {{ activity.activity_name }} detail</h1>
+    <p>Creating a group activity for {{ group_size_ref }} students</p>
+</div>
+
+<div class="col-md-6">
+    <form action="" method="post" enctype=multipart/form-data>
+        {{ form.hidden_tag() }}
+            <div>
+                {{ form.activity_date.label }}
+                {{ form.activity_date(class="form-control") }}
+            </div>
+        <br />
+            <div>
+                {{ form.activity_time.label }}
+                {{ form.activity_time(class="form-control") }}
+            </div>
+        <br />
+
+                {% if activity.activity_name == 'Photo' %}
+                <div class="form-group required">
+                <label class="control-label" for="upload1">Photo</label>
+                <input id="upload1" name="upload" required="" type="file">
+                </div>
+                {% endif %}
+
+                {% if activity.activity_name == 'Video' %}
+                <div class="form-group required">
+                <label class="control-label" for="upload2">Video</label>
+                <input id="upload2" name="upload" required="" type="file">
+                </div>
+                {% endif %}
+
+                {% if activity.activity_name == 'Audio' %}
+                <div class="form-group required">
+                <label class="control-label" for="upload3">Audio</label>
+                <input id="upload3" name="upload" required="" type="file">
+                </div>
+                {% endif %}
+
+            <div>
+                {{ form.comment.label }}
+                {{ form.comment(class="form-control") }}
+            </div>
+        <br />
+            <div>
+                <div class="checkbox">
+                    <label><input id="privacy" name="privacy" type="checkbox" value="">Private</label>
+                </div>
+            </div>
+        <br />
+        <div>
+
+            <a class="btn btn-default" href="{{ url_for('.group_activity') }}">
+                Cancel
+            </a>
+            <span>&nbsp</span>
+
+            <a class="btn btn-primary" href="" data-toggle="modal" data-target="#submitActivityModal">
+                Submit activity
+            </a>
+        </div>
+                <!-- Submit Activity Modal -->
+                <div class="modal fade" id="submitActivityModal" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Add group activity</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>
+                                    You are about to add this activity to {{ group_size_ref }} students.
+                                </p>
+                                <p>
+                                    {{ form.submit(class="btn btn-primary") }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <div></div>
+    </form>
+</div>
+<br />
+{% endblock %}

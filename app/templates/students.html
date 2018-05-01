@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Students | PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Students</h1>
+</div>
+<div>
+    <a class="btn btn-default" href="{{ url_for('.create_student') }}">+ Add new student</a>
+</div>
+<h3></h3>
+<div>
+    <ul>
+        {% for i in students %}
+        <li>
+            {% if i.avatar %}
+                <img class="img-circle" width="60px" src="/static/img/{{ i.avatar }}">
+            {% else %}
+                <img class="img-circle" width="60px" src="/static/img/avatar-1577909_640.png">
+            {% endif %}
+            <a href="{{ url_for('.student', student_id=i.student_id) }}">
+            <span>&nbsp</span>{{ i.last_name }}, {{ i.first_name }}
+        </a></li><br />
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

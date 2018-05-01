@@ -1,0 +1,13 @@
+Dear {{ user.username }},
+
+Welcome to PSA-ONE.
+
+To confirm your account please click on the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The PSA-ONE Team
+
+Note: Replies to this email address are not monitored.

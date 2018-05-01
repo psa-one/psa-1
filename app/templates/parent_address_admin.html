@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    {% if current_user.is_administrator() %}
+        <h1>{{ parent.first_name }}'s Address</h1>
+    {% endif %}
+</div>
+<h3></h3>
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

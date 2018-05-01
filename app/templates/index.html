@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}Home | PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Application Dashboard</h1>
+    <h3>Hello
+        {% if current_user.is_authenticated %}
+            {{ current_user.username }}
+        {% else %}
+        Stranger
+        {% endif %}
+    </h3>
+</div>
+{% if current_user.is_administrator() %}
+    <div>
+        <h4><a href="{{ url_for('.rooms') }}">Rooms</a> ({{ rooms }})</h4>
+        <h4><a href="{{ url_for('.students') }}">Students</a> ({{ students }})</h4>
+        <h4><a href="{{ url_for('.parents') }}">Parents</a> ({{ parents }})</h4>
+    </div>
+{% else %}
+    <h4>My Children:</h4>
+        {% for i in parent.student %}
+        <li><a href="{{ url_for('.student', student_id=i.student_id) }}">{{ i.first_name }} {{ i.last_name }}</a></li>
+        {% endfor %}
+
+    <br />
+    <h4>< STILL TO DO ON PARENT'S DASHBOARD ></h4>
+    <ul>
+        <li>Phase 1: Teacher recommended edtech apps for children of relevant age</li>
+        <li>Phase 2: Local area activities based on parent's children's interests and abilities</li>
+        <li>Phase 3: In-feed recommendations based on data analysis using machine learning</li>
+    </ul>
+{% endif %}
+{% endblock %}

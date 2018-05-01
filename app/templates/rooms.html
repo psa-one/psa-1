@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Rooms | PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Rooms</h1>
+</div>
+
+
+<p>
+    <a class="btn btn-default" href="" data-toggle="modal" data-target="#roomModal">
+        + Add new room
+    </a>
+</p>
+
+<!-- Room Modal -->
+<div class="modal fade" id="roomModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">New Room</h4>
+            </div>
+            <div class="modal-body">
+                {{ wtf.quick_form(form) }}
+            </div>
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<div>
+    <h3></h3>
+    <ul>
+        {% if rooms %}
+            {% for room in rooms %}
+                <li><a href="{{ url_for('.room', room_id=room.room_id) }}">{{ room.room_name }}</a>
+                    ({{ room.students.count() }})</li>
+            {% endfor %}
+        {% else %}
+            <p>You haven't added any rooms to your school.</p>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Parents | PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Parents</h1>
+</div>
+<div>
+    <a class="btn btn-default" href="{{ url_for('auth.parent_reg') }}">+ Add new parent</a>
+</div>
+<h3></h3>
+<div>
+    <ul>
+        {% for parent in parents %}
+        <li>
+            <a href="{{ url_for('.parent', parent_id=parent.parent_id) }}">
+                {{ parent.last_name }}, {{ parent.first_name }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

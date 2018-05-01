@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Add Students to Parent| PSA-ONE{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Add Students to Parent</h1>
+</div>
+<p>Add students to {{ parent.first_name }}.</p>
+<div>
+    {{ wtf.quick_form(form) }}
+    <p>
+    </p>
+</div>
+<div>
+    <ul>
+        {% for i in parent.student %}
+            <li>{{ i.first_name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

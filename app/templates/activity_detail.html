@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- applying moment.js to time field -->
+
+{% endblock %}
+
+{% block title %}Activity Detail{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>{{ activity.activity_name }} activity entry for {{ student }}</h1>
+</div>
+<h3></h3>
+<div>
+    {{ wtf.quick_form(form) }}
+</div>
+{% endblock %}
