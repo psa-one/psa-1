@@ -1,4 +1,11 @@
 import os
+
+COV = None
+if os.environ.get('FLASK_COVERAGE'):
+    import coverage
+    COV = coverage.coverage(branch=True, include='app/*')
+    COV.start()
+
 from app import create_app, db
 from app.models import Student, Status, StudentStatus, School, Room, Activity, ActivityLog, Parent, StudentParent, \
     Role, User, Contact, ParentContact, Address, Gender, Title
@@ -31,7 +38,7 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command('db', MigrateCommand)
 
 
-@manager.command
+@app.cli.command()
 def deploy():
     """Run deployment tasks."""
     # migrate database to latest version
