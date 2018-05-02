@@ -9,7 +9,8 @@ from ..models import Room, Student, Status, StudentStatus, Role, User
 from flask_login import current_user
 from .. import db, photos, audio
 from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, DateTimeField, \
-    PasswordField, MultiCheckboxField
+    PasswordField, SelectMultipleField
+    # MultiCheckboxField
 
 
 class RoomForm(Form):
@@ -282,5 +283,6 @@ class UploadTestForm(Form):
 
 class GroupActivityForm(Form):
     activity = SelectField('Choose activity', coerce=int)
-    students = MultiCheckboxField('Students', coerce=int)
+    # students = MultiCheckboxField('Students', coerce=int)
+    students = SelectMultipleField('Students', coerce=int)
     submit = SubmitField('Next: Step 3 - Activity Detail')
