@@ -76,7 +76,7 @@ class HerokuConfig(ProductionConfig):
         import logging
         from logging import StreamHandler
         file_handler = StreamHandler()
-        file_handler.setLevel(logging.WARNING)
+        file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
         SSL_REDIRECT = True if os.environ.get('DYNO') else False
 
