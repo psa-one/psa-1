@@ -1,1 +1,1 @@
-web: flask db upgrade; flask translate compile; gunicorn manage:app
+web: waitress-serve --port=$PORT manage:app

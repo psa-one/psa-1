@@ -42,4 +42,8 @@ def create_app(config_name):
                            # url_prefix='/auth'
                            )
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify = SSLify(app)
+
     return app

@@ -19,6 +19,7 @@ class Config:
     UPLOADED_PHOTOS_DEST = 'app/static/img'
     UPLOADED_AUDIO_DEST = 'app/static/audio'
     UPLOADED_VIDEOS_DEST = 'app/static/vid'
+    SSL_REDIRECT = False
 
     @staticmethod
     def init_app(app):
@@ -77,6 +78,11 @@ class HerokuConfig(ProductionConfig):
         file_handler = StreamHandler()
         file_handler.setLevel(logging.WARNING)
         app.logger.addHandler(file_handler)
+        SSL_REDIRECT = True if os.environ.get('DYNO') else False
+
+        # handles reverse proxy server headers
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 config = {
