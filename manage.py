@@ -3,7 +3,7 @@ from app import create_app, db
 from app.models import Student, Status, StudentStatus, School, Room, Activity, ActivityLog, Parent, StudentParent, \
     Role, User, Contact, ParentContact, Address, Gender, Title
 from flask_script import Manager, Shell
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand, upgrade
 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -27,24 +27,25 @@ def test():
     unittest.TextTestRunner(verbosity=2).run(tests)
 
 
+manager.add_command("shell", Shell(make_context=make_shell_context))
+manager.add_command('db', MigrateCommand)
+
+
 @manager.command
 def deploy():
     """Run deployment tasks."""
-    from flask_migrate import upgrade
-    from app.models import Role, Activity, Status, Gender, Title
-
     # migrate database to latest version
     upgrade()
 
     Role.insert_roles()
+
     Activity.insert_activities()
+
     Status.insert_statuses()
+
     Gender.insert_genders()
+
     Title.insert_titles()
-
-
-manager.add_command("shell", Shell(make_context=make_shell_context))
-manager.add_command('db', MigrateCommand)
 
 
 if __name__ == "__main__":
