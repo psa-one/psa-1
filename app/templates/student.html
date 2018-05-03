@@ -36,11 +36,11 @@
     <ul class="nav nav-tabs">
         <li {% if active_tab=='' or active_tab=='1' %} class="active" {% endif %}>
             <a href="{{ url_for('.show_school') }}">
-                School Activity
+                School
             </a></li>
         <li {% if active_tab=='2' %} class="active" {% endif %}>
             <a href="{{ url_for('.show_home') }}">
-                Home Activity
+                Home
             </a></li>
         <!--<li {% if active_tab=='3' %} class="active" {% endif %}><a href="{{ url_for('.show_all') }}">All Activity</a></li>-->
         <li {% if active_tab=='4' %} class="active" {% endif %}><a href="{{ url_for('.show_profile') }}">Profile</a></li>
@@ -299,12 +299,12 @@
     <ul class="nav nav-tabs">
         <li {% if active_tab=='' or active_tab=='1' or active_tab=='4' %} class="active" {% endif %}>
             <a href="{{ url_for('.show_school') }}">
-                School Activity
+                School
             </a>
         </li>
         <li {% if active_tab=='2' %} class="active" {% endif %}>
             <a href="{{ url_for('.show_home') }}">
-                Home Activity
+                Home
             </a></li>
         <!--<li {% if active_tab=='3' %} class="active" {% endif %}><a href="{{ url_for('.show_all') }}">All Activity</a></li>-->
     </ul>
