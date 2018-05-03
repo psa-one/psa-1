@@ -1,3 +1,4 @@
+from wtforms import MultiCheckboxField
 from flask_wtf import Form
 from wtforms.fields.html5 import DateField, DateTimeLocalField
 from wtforms_components import TimeField
@@ -8,8 +9,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from ..models import Room, Student, Status, StudentStatus, Role, User
 from flask_login import current_user
 from .. import db, photos, audio
-from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, MultiCheckboxField, \
-    DateTimeField, PasswordField
+from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, DateTimeField, PasswordField
 
 
 class RoomForm(Form):
