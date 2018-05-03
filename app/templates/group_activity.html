@@ -48,19 +48,20 @@
 
                 <div>
                     <p><strong>Step 2: Choose students in activity group</strong></p>
-                    <input class="form-control" id="myInput" type="text" placeholder="Search students...">
+                    <!--<input class="form-control" id="myInput" type="text" placeholder="Search students...">
                     <br />
+
                     <p><input type="checkbox" id="checkAll"> <span>&nbsp</span>Select/Deselect All</p>
                         <ul class="list-group" id="myList">
                             <li class="list-group-item">{{ form.students }}</li>
                         </ul>
-                </div>
-
+                    -->
+                    {{ form.students(class="form-control") }}
+                </div><br />
             </div>
             <div>{{ form.submit(class="btn btn-primary") }}</div>
         </form>
     </div>
-
 </div>
 <br />
 {% endblock %}
