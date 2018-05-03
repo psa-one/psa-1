@@ -8,8 +8,8 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from ..models import Room, Student, Status, StudentStatus, Role, User
 from flask_login import current_user
 from .. import db, photos, audio
-from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, DateTimeField, \
-    PasswordField, SelectMultipleField, MultiCheckboxField
+from wtforms import StringField, SubmitField, TextAreaField, BooleanField, SelectField, MultiCheckboxField, \
+    DateTimeField, PasswordField
 
 
 class RoomForm(Form):
