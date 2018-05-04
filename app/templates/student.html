@@ -72,7 +72,8 @@
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">
+                            <!--<br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">-->
+                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />

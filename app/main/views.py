@@ -201,6 +201,7 @@ def activity_detail():
     student = Student.query.filter_by(student_id=student_ref).first()
     form = None
     form2 = None
+    # filename = None
     id_inc = 1001
     # ACTIVITY CREATION
     # ABSENT
@@ -510,7 +511,8 @@ def activity_detail():
             activity_time = form.activity_time.data
             comment = form.comment.data
             private = form.privacy.data
-            filename = photos.save(form.upload.data)
+            file = photos.save(form.upload.data)
+            file_url = photos.url(file)
             if ActivityLog.query.filter_by(students=student).all():
                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
                 id_inc = last.id + 1
@@ -518,7 +520,7 @@ def activity_detail():
                                          student_id=student.student_id,
                                          activity_id=activity.activity_id,
                                          comment=comment,
-                                         filename=filename,
+                                         filename=file_url,
                                          private=private)
             if current_user.is_administrator():
                 activity_entry.creator_role = 'admin'
