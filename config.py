@@ -16,7 +16,7 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PSA_POSTS_PER_PAGE = 20
-    UPLOADED_PHOTOS_DEST = 'static'
+    UPLOADED_PHOTOS_DEST = os.getcwd()
     UPLOADED_AUDIO_DEST = 'app/static/audio'
     UPLOADED_VIDEOS_DEST = 'app/static/vid'
     SSL_REDIRECT = False
