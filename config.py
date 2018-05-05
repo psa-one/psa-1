@@ -17,8 +17,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PSA_POSTS_PER_PAGE = 20
     UPLOADED_PHOTOS_DEST = os.getcwd()
-    UPLOADED_AUDIO_DEST = 'app/static/audio'
-    UPLOADED_VIDEOS_DEST = 'app/static/vid'
+    UPLOADED_AUDIO_DEST = os.getcwd()
+    UPLOADED_VIDEOS_DEST = os.getcwd()
     SSL_REDIRECT = False
 
     @staticmethod

@@ -201,7 +201,6 @@ def activity_detail():
     student = Student.query.filter_by(student_id=student_ref).first()
     form = None
     form2 = None
-    # filename = None
     id_inc = 1001
     # ACTIVITY CREATION
     # ABSENT
@@ -240,7 +239,8 @@ def activity_detail():
             activity_time = form.activity_time.data
             comment = form.comment.data
             private = form.privacy.data
-            filename = audio.save(form.upload.data)
+            file = audio.save(form.upload.data)
+            file_url = audio.url(file)
             if ActivityLog.query.filter_by(students=student).all():
                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
                 id_inc = last.id + 1
@@ -248,7 +248,7 @@ def activity_detail():
                                          student_id=student.student_id,
                                          activity_id=activity.activity_id,
                                          comment=comment,
-                                         filename=filename,
+                                         filename=file_url,
                                          private=private)
             if current_user.is_administrator():
                 activity_entry.creator_role = 'admin'
@@ -594,7 +594,8 @@ def activity_detail():
             activity_time = form.activity_time.data
             comment = form.comment.data
             private = form.privacy.data
-            filename = videos.save(form.upload.data)
+            file = videos.save(form.upload.data)
+            file_url = videos.url(file)
             if ActivityLog.query.filter_by(students=student).all():
                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
                 id_inc = last.id + 1
@@ -602,7 +603,7 @@ def activity_detail():
                                          student_id=student.student_id,
                                          activity_id=activity.activity_id,
                                          comment=comment,
-                                         filename=filename,
+                                         filename=file_url,
                                          private=private)
             if current_user.is_administrator():
                 activity_entry.creator_role = 'admin'
@@ -662,8 +663,9 @@ def edit_activity_detail(id):
             activity.timestamp = activity_datetime
             activity.comment = comment
             activity.private = private
-            filename = audio.save(form.upload.data)
-            activity.filename = filename
+            file = audio.save(form.upload.data)
+            file_url = audio.url(file)
+            activity.filename = file_url
             db.session.add(activity)
             db.session.commit()
             return redirect(url_for('main.student', student_id=student.student_id))
@@ -844,8 +846,9 @@ def edit_activity_detail(id):
             activity.timestamp = activity_datetime
             activity.comment = comment
             activity.private = private
-            filename = photos.save(form.upload.data)
-            activity.filename = filename
+            file = photos.save(form.upload.data)
+            file_url = photos.url(file)
+            activity.filename = file_url
             db.session.add(activity)
             db.session.commit()
             return redirect(url_for('main.student', student_id=student.student_id))
@@ -900,8 +903,9 @@ def edit_activity_detail(id):
             activity.timestamp = activity_datetime
             activity.comment = comment
             activity.private = private
-            filename = videos.save(form.upload.data)
-            activity.filename = filename
+            file = videos.save(form.upload.data)
+            file_url = videos.url(file)
+            activity.filename = file_url
             db.session.add(activity)
             db.session.commit()
             return redirect(url_for('main.student', student_id=student.student_id))
@@ -1478,7 +1482,8 @@ def group_activity_detail():
             activity_datetime = datetime.combine(activity_date, activity_time)
             comment = form.comment.data
             private = form.privacy.data
-            filename = photos.save(form.upload.data)
+            file = photos.save(form.upload.data)
+            file_url = audio.url(file)
             for s in student:
                 id_inc = 1001
                 if ActivityLog.query.filter_by(students=s).all():
@@ -1490,7 +1495,7 @@ def group_activity_detail():
                                              student_id=s.student_id,
                                              activity_id=activity.activity_id,
                                              comment=comment,
-                                             filename=filename,
+                                             filename=file_url,
                                              private=private)
                 activity_entry.creator_role = 'admin'
                 s.activity.append(activity_entry)
@@ -1770,7 +1775,8 @@ def group_activity_detail():
             activity_datetime = datetime.combine(activity_date, activity_time)
             comment = form.comment.data
             private = form.privacy.data
-            filename = photos.save(form.upload.data)
+            file = photos.save(form.upload.data)
+            file_url = photos.url(file)
             for s in student:
                 id_inc = 1001
                 if ActivityLog.query.filter_by(students=s).all():
@@ -1782,7 +1788,7 @@ def group_activity_detail():
                                              student_id=s.student_id,
                                              activity_id=activity.activity_id,
                                              comment=comment,
-                                             filename=filename,
+                                             filename=file_url,
                                              private=private)
                 activity_entry.creator_role = 'admin'
                 s.activity.append(activity_entry)
@@ -1859,7 +1865,8 @@ def group_activity_detail():
             activity_datetime = datetime.combine(activity_date, activity_time)
             comment = form.comment.data
             private = form.privacy.data
-            filename = photos.save(form.upload.data)
+            file = photos.save(form.upload.data)
+            file_url = photos.url(file)
             for s in student:
                 id_inc = 1001
                 if ActivityLog.query.filter_by(students=s).all():
@@ -1871,7 +1878,7 @@ def group_activity_detail():
                                              student_id=s.student_id,
                                              activity_id=activity.activity_id,
                                              comment=comment,
-                                             filename=filename,
+                                             filename=file_url,
                                              private=private)
                 activity_entry.creator_role = 'admin'
                 s.activity.append(activity_entry)
