@@ -7,7 +7,7 @@
 {% block page_content %}
 <div class="page-header">
         {% if student.avatar %}
-            <img class="img-circle" width="120px" style="margin-bottom: 12px;" src="/static/img/{{ student.avatar }}">
+            <img class="img-circle" width="120px" style="margin-bottom: 12px;" src="{{ student.avatar }}">
         {% else %}
             <img class="img-circle" width="120px" style="margin-bottom: 12px;" src="/static/img/avatar-1577909_640.png">
         {% endif %}
@@ -78,13 +78,13 @@
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
                             <video class="img-responsive" width="360px" controls>
-                                <source src="/static/vid/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </video>
                             {% endif %}
                             {% if activity.activities.activity_name == 'Audio' %}
                             <br /><br /><br />
                             <audio class="img-responsive" controls>
-                                <source src="/static/audio/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </audio>
                             {% endif %}
                             <br />
@@ -117,18 +117,18 @@
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">
+                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
                             <video class="img-responsive" width="360px" controls>
-                                <source src="/static/vid/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </video>
                             {% endif %}
                             {% if activity.activities.activity_name == 'Audio' %}
                             <br /><br /><br />
                             <audio class="img-responsive" controls>
-                                <source src="/static/audio/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </audio>
                             {% endif %}
                         </li><br /><br />
@@ -316,18 +316,18 @@
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">
+                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
                             <video class="img-responsive" width="360px" controls>
-                                <source src="/static/vid/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </video>
                             {% endif %}
                             {% if activity.activities.activity_name == 'Audio' %}
                             <br /><br /><br />
                             <audio class="img-responsive" controls>
-                                <source src="/static/audio/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </audio>
                             {% endif %}
 
@@ -370,18 +370,18 @@
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">
+                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
                             <video class="img-responsive" width="360px" controls>
-                                <source src="/static/vid/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </video>
                             {% endif %}
                             {% if activity.activities.activity_name == 'Audio' %}
                             <br /><br /><br />
                             <audio class="img-responsive" controls>
-                                <source src="/static/audio/{{ activity.filename }}">
+                                <source src="{{ activity.filename }}">
                             </audio>
                             {% endif %}
                             <p>

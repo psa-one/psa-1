@@ -19,6 +19,9 @@ class Config:
     UPLOADED_PHOTOS_DEST = os.getcwd()
     UPLOADED_AUDIO_DEST = os.getcwd()
     UPLOADED_VIDEOS_DEST = os.getcwd()
+    # UPLOADED_PHOTOS_DEST = 'app/static/img'
+    # UPLOADED_AUDIO_DEST = 'app/static/audio'
+    # UPLOADED_VIDEOS_DEST = 'app/static/vid'
     SSL_REDIRECT = False
 
     @staticmethod
