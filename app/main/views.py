@@ -212,10 +212,25 @@ def activity_detail():
             activity_time = form.activity_time.data
             comment = form.comment.data
             private = form.privacy.data
-            s3 = boto3.resource('s3')
-            # s3.Bucket(os.environ.get('S3_BUCKET'))
-            s3.Bucket('psa-one').put_object(key='Test', Body=request.files[form.upload.data])
-            # file_url = form.upload.data
+
+            S3_BUCKET = os.environ.get('S3_BUCKET')
+            file_name = request.args.get('file_name')
+            file_type = request.args.get('file_type')
+
+            s3 = boto3.client('s3')
+
+            presigned_post = s3.generate_presigned_post(
+                Bucket=S3_BUCKET,
+                Key=file_name,
+                Fields={"acl": "public-read", "Content-Type": file_type},
+                Conditions=[
+                  {"acl": "public-read"},
+                  {"Content-Type": file_type}
+                ],
+                ExpiresIn=3600
+                )
+            file_url = json.dumps(
+                {'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
             if ActivityLog.query.filter_by(students=student).all():
                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
                 id_inc = last.id + 1
@@ -223,7 +238,7 @@ def activity_detail():
                                          student_id=student.student_id,
                                          activity_id=activity.activity_id,
                                          comment=comment,
-                                         # filename=file_url,
+                                         filename=file_url,
                                          private=private)
             if current_user.is_administrator():
                 activity_entry.creator_role = 'admin'
