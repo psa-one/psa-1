@@ -15,6 +15,7 @@ from ..models import Room, School, Student, Status, Role, User, StudentStatus, P
     Activity, ActivityLog, Contact, Address, Gender, ParentContact
 from ..decorators import admin_required, permission_required
 from werkzeug.utils import secure_filename
+import os, json, boto3
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -206,6 +207,31 @@ def activity_detail():
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
         form = Photo2ActivityForm()
+        if form.validate_on_submit():
+            activity_date = form.activity_date.data
+            activity_time = form.activity_time.data
+            comment = form.comment.data
+            private = form.privacy.data
+            file_url = form.upload.data
+            if ActivityLog.query.filter_by(students=student).all():
+                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+                id_inc = last.id + 1
+            activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
+                                         student_id=student.student_id,
+                                         activity_id=activity.activity_id,
+                                         comment=comment,
+                                         filename=file_url,
+                                         private=private)
+            if current_user.is_administrator():
+                activity_entry.creator_role = 'admin'
+            else:
+                activity_entry.creator_role = 'parent'
+            student.activity.append(activity_entry)
+            activity.student.append(activity_entry)
+            db.session.commit()
+            return redirect(url_for('main.student', student_id=student.student_id))
+        form.activity_date.data = datetime.utcnow().date()
+        form.activity_time.data = datetime.utcnow().time()
     elif activity.activity_name == 'Video':
         form = Video2ActivityForm()
     elif activity.activity_name == 'Incident' or \
@@ -236,7 +262,7 @@ def activity_detail():
         student.activity.append(activity_entry)
         activity.student.append(activity_entry)
         db.session.commit()
-        return redirect(url_for('main.student', student_id=student.student_id))
+        return redirect(url_for('main.students', student_id=student.student_id))
     form.activity_date.data = datetime.utcnow().date()
     form.activity_time.data = datetime.utcnow().time()
     if activity is None:
@@ -244,7 +270,30 @@ def activity_detail():
     if form is None:
         abort(404)
     else:
-        return render_template('activity_detail.html', activity=activity, student=student.first_name, form=form)
+        return render_template('activity_detail.html', activity=activity, student=student, form=form)
+
+
+@main.route('/sign_s3/')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    s3 = boto3.client('s3')
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[
+          {"acl": "public-read"},
+          {"Content-Type": file_type}
+        ],
+        ExpiresIn=3600
+        )
+
+    return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
 
 
 # @main.route("/activity-detail", methods=['GET', 'POST'])

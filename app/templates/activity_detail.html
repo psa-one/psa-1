@@ -3,11 +3,60 @@
 
 {% block scripts %}
     {{ super() }}
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- applying moment.js to time field -->
+
+    <script>
+        (function() {
+            document.getElementById("file_input").onchange = function(){
+                var files = document.getElementById("file_input").files;
+                var file = files[0];
+                if(!file){
+                  return alert("No file selected.");
+                }
+                getSignedRequest(file);
+              };
+            })();
+
+        function getSignedRequest(file){
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "/sign_s3?file_name="+file.name+"&file_type="+file.type);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200){
+                        var response = JSON.parse(xhr.responseText);
+                        uploadFile(file, response.data, response.url);
+                    }
+                    else{
+                        alert("Could not get signed URL.");
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        function uploadFile(file, s3Data, url){
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", s3Data.url);
+
+            var postData = new FormData();
+            for(key in s3Data.fields){
+                postData.append(key, s3Data.fields[key]);
+            }
+            postData.append('file', file);
+
+            xhr.onreadystatechange = function() {
+                if(xhr.readyState === 4){
+                    if(xhr.status === 200 || xhr.status === 204){
+                        document.getElementById("preview").src = url;
+                        document.getElementById("avatar-url").value = url;
+                    }
+                    else{
+                        alert("Could not upload file.");
+                    }
+                }
+            };
+            xhr.send(postData);
+        }
+    </script>
 
 {% endblock %}
 
@@ -15,14 +64,75 @@
 
 {% block page_content %}
 <div class="page-header">
-    <h1>{{ activity.activity_name }} activity entry for {{ student }}</h1>
+    <h1>{{ activity.activity_name }} activity entry for {{ student.first_name }}</h1>
 </div>
 <h3></h3>
 <div>
-    {% if activity.activity_name == 'Photo' %}
-        <p>Hello photo</p>
+    {% if activity.activity_name == 'Audio' or activity.activity_name == 'Photo' or activity.activity_name == 'Video' %}
+    <div class="col-md-6">
+        <form action="" method="post" enctype=multipart/form-data>
+            {{ form.hidden_tag() }}
+                <div>
+                    {{ form.activity_date.label }}
+                    {{ form.activity_date(class="form-control") }}
+                </div>
+            <br />
+                <div>
+                    {{ form.activity_time.label }}
+                    {{ form.activity_time(class="form-control") }}
+                </div>
+            <br />
+
+                    {% if activity.activity_name == 'Photo' %}
+                    <div class="form-group required">
+                    <label class="control-label" for="upload1">Photo</label>
+                    <input id="upload1" name="upload" required="" type="file">
+                    </div>
+                    {% endif %}
+
+                    {% if activity.activity_name == 'Video' %}
+                    <div class="form-group required">
+                    <label class="control-label" for="upload2">Video</label>
+                    <input id="upload2" name="upload" required="" type="file">
+                    </div>
+                    {% endif %}
+
+                    {% if activity.activity_name == 'Audio' %}
+                    <div class="form-group required">
+                    <label class="control-label" for="upload3">Audio</label>
+                    <input id="upload3" name="upload" required="" type="file">
+                    </div>
+                    {% endif %}
+
+                <div>
+                    {{ form.comment.label }}
+                    {{ form.comment(class="form-control") }}
+                </div>
+            <br />
+                <div>
+                    <div class="checkbox">
+                        <label><input id="privacy" name="privacy" type="checkbox" value="">Private</label>
+                    </div>
+                </div>
+            <br />
+            <div>
+
+                <a class="btn btn-default" href="{{ url_for('main.student', student_id=student.student_id) }}">
+                    Cancel
+                </a>
+                <span>&nbsp</span>
+
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+
     {% else %}
+
         {{ wtf.quick_form(form) }}
+
     {% endif %}
+
+<br />
 </div>
 {% endblock %}
