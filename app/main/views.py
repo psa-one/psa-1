@@ -1999,6 +1999,12 @@ def group_activity_detail():
 @main.route('/uploads-test', methods=['GET', 'POST'])
 @login_required
 def uploads_test():
+    return render_template('uploads_test.html')
+
+
+@main.route('/upload', methods=['GET', 'POST'])
+@login_required
+def uploads_test():
     s3 = boto3.resource('s3')
     s3.Bucket('psa-one').put_object(key='my_image.png', body=request.files['file_input'])
     return '<h1>File saved to S3</h1>'
