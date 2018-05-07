@@ -1938,73 +1938,73 @@ def group_activity_detail():
                            , form=form)
 
 
-# @main.route('/uploads-test', methods=['GET', 'POST'])
-# @login_required
-# def uploads_test():
-#     return render_template('uploads_test.html')
-#
-#
-# # Listen for POST requests to yourdomain.com/submit_form/
-# @main.route('/submit-form/', methods=['POST'])
-# @login_required
-# def submit_form():
-#     username = request.form["username"]
-#     full_name = request.form["full-name"]
-#     avatar_url = request.form["avatar-url"]
-#     session['username_ref'] = username
-#     session['full_name_ref'] = full_name
-#     session['avatar_ref'] = avatar_url
-#
-#     # Provide some procedure for storing the new details
-#     # update_account(username, full_name, avatar_url)
-#
-#     return redirect(url_for('main.uploads_test_output'))
-#
-#
-# @main.route('/uploads_test_output', methods=['GET', 'POST'])
-# @login_required
-# def uploads_test_output():
-#     username = session.get('username_ref', None)
-#     full_name = session.get('full_name_ref', None)
-#     avatar_url = session.get('avatar_ref', None)
-#     return render_template('uploads_test_output.html'
-#                            , username=username
-#                            , full_name=full_name
-#                            , avatar_url=avatar_url)
-#
-#
-# @main.route('/sign_s3/')
-# def sign_s3():
-#     S3_BUCKET = os.environ.get('S3_BUCKET')
-#
-#     file_name = request.args.get('file_name')
-#     file_type = request.args.get('file_type')
-#
-#     s3 = boto3.client('s3')
-#
-#     presigned_post = s3.generate_presigned_post(
-#         Bucket=S3_BUCKET,
-#         Key=file_name,
-#         Fields={"acl": "public-read", "Content-Type": file_type},
-#         Conditions=[
-#           {"acl": "public-read"},
-#           {"Content-Type": file_type}
-#         ],
-#         ExpiresIn=3600
-#         )
-#
-#     return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
-
-
 @main.route('/uploads-test', methods=['GET', 'POST'])
 @login_required
 def uploads_test():
     return render_template('uploads_test.html')
 
 
-@main.route('/upload', methods=['GET', 'POST'])
+# Listen for POST requests to yourdomain.com/submit_form/
+@main.route('/submit-form/', methods=['POST'])
 @login_required
-def upload():
-    s3 = boto3.resource('s3')
-    s3.Bucket('psa-one').put_object(Key='my_image.png', Body=request.files['file_input'])
-    return '<h1>File saved to S3</h1>'
+def submit_form():
+    username = request.form["username"]
+    full_name = request.form["full-name"]
+    avatar_url = request.form["avatar-url"]
+    session['username_ref'] = username
+    session['full_name_ref'] = full_name
+    session['avatar_ref'] = avatar_url
+
+    # Provide some procedure for storing the new details
+    # update_account(username, full_name, avatar_url)
+
+    return redirect(url_for('main.uploads_test_output'))
+
+
+@main.route('/uploads_test_output', methods=['GET', 'POST'])
+@login_required
+def uploads_test_output():
+    username = session.get('username_ref', None)
+    full_name = session.get('full_name_ref', None)
+    avatar_url = session.get('avatar_ref', None)
+    return render_template('uploads_test_output.html'
+                           , username=username
+                           , full_name=full_name
+                           , avatar_url=avatar_url)
+
+
+@main.route('/sign_s3/')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    s3 = boto3.client('s3')
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[
+          {"acl": "public-read"},
+          {"Content-Type": file_type}
+        ],
+        ExpiresIn=3600
+        )
+
+    return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
+
+
+# @main.route('/uploads-test', methods=['GET', 'POST'])
+# @login_required
+# def uploads_test():
+#     return render_template('uploads_test.html')
+#
+#
+# @main.route('/upload', methods=['GET', 'POST'])
+# @login_required
+# def upload():
+#     s3 = boto3.resource('s3')
+#     s3.Bucket('psa-one').put_object(Key='my_image.png', Body=request.files['file_input'])
+#     return '<h1>File saved to S3</h1>'

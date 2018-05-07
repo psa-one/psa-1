@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0ebbde-f658-4d2c-aa4f-e9dfbcaa9436" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/main/views.py" afterPath="$PROJECT_DIR$/app/main/views.py" />
+      <change beforePath="$PROJECT_DIR$/app/templates/uploads_test.html" afterPath="$PROJECT_DIR$/app/templates/uploads_test.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -39,24 +39,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/main/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1144">
-              <caret line="2010" column="0" lean-forward="true" selection-start-line="2010" selection-start-column="0" selection-end-line="2010" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#112#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="uploads_test.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="719">
-              <caret line="141" column="12" lean-forward="true" selection-start-line="141" selection-start-column="12" selection-end-line="141" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="-216">
+              <caret line="27" column="62" lean-forward="true" selection-start-line="27" selection-start-column="62" selection-end-line="27" selection-end-column="62" />
+              <folding>
+                <element signature="n#style#0;n#img#0;n#div#2;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -67,6 +57,18 @@
             <state relative-caret-position="272">
               <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/main/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="1944" column="0" lean-forward="true" selection-start-line="1944" selection-start-column="0" selection-end-line="1944" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#112#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,8 +144,8 @@
         <option value="$PROJECT_DIR$/app/templates/activity_detail.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test-output.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test_output.html" />
-        <option value="$PROJECT_DIR$/app/templates/uploads_test.html" />
         <option value="$PROJECT_DIR$/app/main/views.py" />
+        <option value="$PROJECT_DIR$/app/templates/uploads_test.html" />
       </list>
     </option>
   </component>
@@ -649,6 +651,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-216">
+          <caret line="27" column="62" lean-forward="true" selection-start-line="27" selection-start-column="62" selection-end-line="27" selection-end-column="62" />
+          <folding>
+            <element signature="n#style#0;n#img#0;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/uploads_test_output.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -657,18 +669,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="719">
-          <caret line="141" column="12" lean-forward="true" selection-start-line="141" selection-start-column="12" selection-end-line="141" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
-          <caret line="2010" column="0" lean-forward="true" selection-start-line="2010" selection-start-column="0" selection-end-line="2010" selection-end-column="0" />
+        <state relative-caret-position="255">
+          <caret line="1944" column="0" lean-forward="true" selection-start-line="1944" selection-start-column="0" selection-end-line="1944" selection-end-column="0" />
           <folding>
             <element signature="e#0#112#0" expanded="true" />
           </folding>
