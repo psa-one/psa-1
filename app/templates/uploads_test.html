@@ -70,13 +70,12 @@
     </div>
 
     <div class="col-md-6">
-        <input type="file" id="file_input"/>
-        <br />
-        <p id="status">Please select a file</p>
-        <br />
         <img style="border:1px solid gray;width:300px;" id="preview" src="/static/default.png" />
         <br />
         <form method="POST" enctype=multipart/form-data action="{{ url_for('main.submit_form') }}">
+            <input type="file" id="file_input"/>
+        <br />
+        <p id="status">Please select a file</p>
           <input type="hidden" id="avatar-url" name="avatar-url" value="/static/default.png">
             <br />
           <input type="text" name="username" placeholder="Username">
