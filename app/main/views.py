@@ -2004,7 +2004,7 @@ def uploads_test():
 
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
-def uploads_test():
+def upload():
     s3 = boto3.resource('s3')
     s3.Bucket('psa-one').put_object(key='my_image.png', body=request.files['file_input'])
     return '<h1>File saved to S3</h1>'
