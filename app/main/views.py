@@ -215,7 +215,7 @@ def activity_detail():
             s3 = boto3.resource('s3')
             # s3.Bucket(os.environ.get('S3_BUCKET'))
             s3.Bucket('psa-one').put_object(key='Test', Body=request.files[form.upload.data])
-            file_url = form.upload.data
+            # file_url = form.upload.data
             if ActivityLog.query.filter_by(students=student).all():
                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
                 id_inc = last.id + 1
