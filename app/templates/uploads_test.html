@@ -90,7 +90,7 @@
         <br />
         <img style="border:1px solid gray;width:300px;" id="preview" src="/static/default.png" />
         <br />
-        <form method="POST" action="/submit_form/">
+        <form method="POST" action="{{ url_for('main.submit_form') }}">
           <input type="hidden" id="avatar-url" name="avatar-url" value="/static/default.png">
             <br />
           <input type="text" name="username" placeholder="Username">
