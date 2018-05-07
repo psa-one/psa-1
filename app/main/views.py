@@ -1961,7 +1961,7 @@ def submit_form():
     return redirect(url_for('main.uploads_test_output'))
 
 
-@main.route('/uploads_test_output', methods=['POST'])
+@main.route('/uploads_test_output', methods=['GET', 'POST'])
 @login_required
 def uploads_test_output():
     username = session.get('username_ref', None)

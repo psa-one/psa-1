@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0ebbde-f658-4d2c-aa4f-e9dfbcaa9436" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/templates/uploads_test.html" afterPath="$PROJECT_DIR$/app/templates/uploads_test.html" />
+      <change beforePath="$PROJECT_DIR$/app/main/views.py" afterPath="$PROJECT_DIR$/app/main/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -60,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="1947" column="26" lean-forward="false" selection-start-line="1947" selection-start-column="26" selection-end-line="1947" selection-end-column="26" />
+            <state relative-caret-position="685">
+              <caret line="1965" column="26" lean-forward="true" selection-start-line="1965" selection-start-column="26" selection-end-line="1965" selection-end-column="26" />
               <folding>
                 <element signature="e#0#112#0" expanded="true" />
               </folding>
@@ -72,7 +72,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="uploads_test.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="uploads_test.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1110">
@@ -175,8 +175,8 @@
         <option value="$PROJECT_DIR$/app/templates/activity_detail.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test-output.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test_output.html" />
-        <option value="$PROJECT_DIR$/app/main/views.py" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test.html" />
+        <option value="$PROJECT_DIR$/app/main/views.py" />
       </list>
     </option>
   </component>
@@ -687,22 +687,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="1947" column="26" lean-forward="false" selection-start-line="1947" selection-start-column="26" selection-end-line="1947" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#112#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1110">
           <caret line="104" column="14" lean-forward="true" selection-start-line="104" selection-start-column="14" selection-end-line="104" selection-end-column="14" />
           <folding>
             <element signature="n#style#0;n#img#0;n#div#2;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/main/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="685">
+          <caret line="1965" column="26" lean-forward="true" selection-start-line="1965" selection-start-column="26" selection-end-line="1965" selection-end-column="26" />
+          <folding>
+            <element signature="e#0#112#0" expanded="true" />
           </folding>
         </state>
       </provider>
