@@ -1996,7 +1996,7 @@ def group_activity_detail():
 #     return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
 
 
-@main.route('/uploads-test')
+@main.route('/uploads-test', methods=['GET', 'POST'])
 @login_required
 def uploads_test():
     s3 = boto3.resource('s3')
