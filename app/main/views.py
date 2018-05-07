@@ -7,7 +7,8 @@ from .forms import RoomForm, EditProfileForm, EditProfileAdminForm, StudentForm,
     CheckoutActivityForm, FoodActivityForm, IncidentActivityForm, KudosActivityForm, LearningActivityForm, \
     MedicationActivityForm, NapActivityForm, NoteActivityForm, PhotoActivityForm, PottyActivityForm, \
     ReminderActivityForm, VideoActivityForm, ContactNumberForm, AddressForm, SchoolNameForm, UploadTestForm, \
-    AvatarForm, UpdateRoomForm, EditContactNumberForm, ChangePasswordForm, GroupActivityForm
+    AvatarForm, UpdateRoomForm, EditContactNumberForm, ChangePasswordForm, GroupActivityForm, \
+    GeneralActivityForm, RequiredCommentActivityForm, Audio2ActivityForm, Photo2ActivityForm, Video2ActivityForm
 from ..auth.forms import StudentParentForm
 from .. import db, photos, videos, audio
 from ..models import Room, School, Student, Status, Role, User, StudentStatus, Permission, Parent, StudentParent, \
@@ -199,429 +200,483 @@ def activity_detail():
     activity = Activity.query.filter_by(activity_id=chosen_activity_id).first()
     student_ref = session.get('student_ref', None)
     student = Student.query.filter_by(student_id=student_ref).first()
-    form = None
-    form2 = None
     id_inc = 1001
     # ACTIVITY CREATION
-    # ABSENT
-    if activity.activity_name == 'Absent':
-        form = AbsentActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc,
-                                         timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # AUDIO
     if activity.activity_name == 'Audio':
-        form = AudioActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            comment = form.comment.data
-            private = form.privacy.data
-            file = audio.save(form.upload.data)
-            file_url = audio.url(file)
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         filename=file_url,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # CHECK-IN
-    if activity.activity_name == 'Check-in':
-        form = CheckinActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # CHECK-OUT
-    if activity.activity_name == 'Check-out':
-        form = CheckoutActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # FOOD
-    if activity.activity_name == 'Food':
-        form = FoodActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # INCIDENT
-    if activity.activity_name == 'Incident':
-        form = IncidentActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # KUDOS
-    if activity.activity_name == 'Kudos':
-        form = KudosActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # LEARNING
-    if activity.activity_name == 'Learning':
-        form = LearningActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # MEDICATION
-    if activity.activity_name == 'Medication':
-        form = MedicationActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # NAP
-    if activity.activity_name == 'Nap':
-        form = NapActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # NOTE
-    if activity.activity_name == 'Note':
-        form = NoteActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # PHOTO
-    if activity.activity_name == 'Photo':
-        form = PhotoActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            comment = form.comment.data
-            private = form.privacy.data
-            file = photos.save(form.upload.data)
-            file_url = photos.url(file)
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         filename=file_url,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # POTTY
-    if activity.activity_name == 'Potty':
-        form = PottyActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # REMINDER
-    if activity.activity_name == 'Reminder':
-        form = ReminderActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            activity_datetime = datetime.combine(activity_date, activity_time)
-            comment = form.comment.data
-            private = form.privacy.data
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
-    # VIDEO
-    if activity.activity_name == 'Video':
-        form = VideoActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            comment = form.comment.data
-            private = form.privacy.data
-            file = videos.save(form.upload.data)
-            file_url = videos.url(file)
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         filename=file_url,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
+        form = Audio2ActivityForm()
+    elif activity.activity_name == 'Photo':
+        form = Photo2ActivityForm()
+    elif activity.activity_name == 'Video':
+        form = Video2ActivityForm()
+    elif activity.activity_name == 'Incident' or \
+            activity.activity_name == 'Note' or \
+            activity.activity_name == 'Reminder':
+        form = RequiredCommentActivityForm()
+    else:
+        form = GeneralActivityForm()
+    if form.validate_on_submit():
+        activity_date = form.activity_date.data
+        activity_time = form.activity_time.data
+        activity_datetime = datetime.combine(activity_date, activity_time)
+        comment = form.comment.data
+        private = form.privacy.data
+        if ActivityLog.query.filter_by(students=student).all():
+            last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+            id_inc = last.id + 1
+        activity_entry = ActivityLog(id=id_inc,
+                                     timestamp=activity_datetime,
+                                     student_id=student.student_id,
+                                     activity_id=activity.activity_id,
+                                     comment=comment,
+                                     private=private)
+        if current_user.is_administrator():
+            activity_entry.creator_role = 'admin'
+        else:
+            activity_entry.creator_role = 'parent'
+        student.activity.append(activity_entry)
+        activity.student.append(activity_entry)
+        db.session.commit()
+        return redirect(url_for('main.student', student_id=student.student_id))
+    form.activity_date.data = datetime.utcnow().date()
+    form.activity_time.data = datetime.utcnow().time()
     if activity is None:
         abort(404)
     if form is None:
         abort(404)
     else:
-        return render_template('activity_detail.html', activity=activity, student=student.first_name,
-                               form=form, form2=form2)
+        return render_template('activity_detail.html', activity=activity, student=student.first_name, form=form)
+
+
+# @main.route("/activity-detail", methods=['GET', 'POST'])
+# @login_required
+# def activity_detail():
+#     chosen_activity_id = session.get('chosen_activity_id', None)
+#     activity = Activity.query.filter_by(activity_id=chosen_activity_id).first()
+#     student_ref = session.get('student_ref', None)
+#     student = Student.query.filter_by(student_id=student_ref).first()
+#     form = None
+#     form2 = None
+#     id_inc = 1001
+#     # ACTIVITY CREATION
+#     # ABSENT
+#     if activity.activity_name == 'Absent':
+#         form = AbsentActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc,
+#                                          timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # AUDIO
+#     if activity.activity_name == 'Audio':
+#         form = AudioActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             file = audio.save(form.upload.data)
+#             file_url = audio.url(file)
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          filename=file_url,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # CHECK-IN
+#     if activity.activity_name == 'Check-in':
+#         form = CheckinActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # CHECK-OUT
+#     if activity.activity_name == 'Check-out':
+#         form = CheckoutActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # FOOD
+#     if activity.activity_name == 'Food':
+#         form = FoodActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # INCIDENT
+#     if activity.activity_name == 'Incident':
+#         form = IncidentActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # KUDOS
+#     if activity.activity_name == 'Kudos':
+#         form = KudosActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # LEARNING
+#     if activity.activity_name == 'Learning':
+#         form = LearningActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # MEDICATION
+#     if activity.activity_name == 'Medication':
+#         form = MedicationActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # NAP
+#     if activity.activity_name == 'Nap':
+#         form = NapActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # NOTE
+#     if activity.activity_name == 'Note':
+#         form = NoteActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # PHOTO
+#     if activity.activity_name == 'Photo':
+#         form = PhotoActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             file = photos.save(form.upload.data)
+#             file_url = photos.url(file)
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          filename=file_url,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # POTTY
+#     if activity.activity_name == 'Potty':
+#         form = PottyActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # REMINDER
+#     if activity.activity_name == 'Reminder':
+#         form = ReminderActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             activity_datetime = datetime.combine(activity_date, activity_time)
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=activity_datetime,
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     # VIDEO
+#     if activity.activity_name == 'Video':
+#         form = VideoActivityForm()
+#         if form.validate_on_submit():
+#             activity_date = form.activity_date.data
+#             activity_time = form.activity_time.data
+#             comment = form.comment.data
+#             private = form.privacy.data
+#             file = videos.save(form.upload.data)
+#             file_url = videos.url(file)
+#             if ActivityLog.query.filter_by(students=student).all():
+#                 last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
+#                 id_inc = last.id + 1
+#             activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
+#                                          student_id=student.student_id,
+#                                          activity_id=activity.activity_id,
+#                                          comment=comment,
+#                                          filename=file_url,
+#                                          private=private)
+#             if current_user.is_administrator():
+#                 activity_entry.creator_role = 'admin'
+#             else:
+#                 activity_entry.creator_role = 'parent'
+#             student.activity.append(activity_entry)
+#             activity.student.append(activity_entry)
+#             db.session.commit()
+#             return redirect(url_for('main.student', student_id=student.student_id))
+#         form.activity_date.data = datetime.utcnow().date()
+#         form.activity_time.data = datetime.utcnow().time()
+#     if activity is None:
+#         abort(404)
+#     if form is None:
+#         abort(404)
+#     else:
+#         return render_template('activity_detail.html', activity=activity, student=student.first_name,
+#                                form=form, form2=form2)
 
 
 @main.route("/edit-activity-detail/<id>", methods=['GET', 'POST'])

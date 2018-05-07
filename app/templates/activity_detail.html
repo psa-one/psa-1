@@ -19,6 +19,10 @@
 </div>
 <h3></h3>
 <div>
-    {{ wtf.quick_form(form) }}
+    {% if activity.activity_name == 'Photo' %}
+        <p>Hello photo</p>
+    {% else %}
+        {{ wtf.quick_form(form) }}
+    {% endif %}
 </div>
 {% endblock %}

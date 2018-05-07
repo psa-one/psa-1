@@ -248,6 +248,51 @@ class VideoActivityForm(Form):
 # END OF ACTIVITY FORMS
 
 
+# v2 ACTIVITY FORMS
+class GeneralActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    comment = TextAreaField('Comment (optional)')
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+
+
+class RequiredCommentActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    comment = TextAreaField('Comment (required)', validators=[DataRequired()])
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+
+
+class Audio2ActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    upload = FileField('Audio', validators=[FileRequired()])
+    comment = TextAreaField('Comment (optional)')
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+
+
+class Photo2ActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    upload = FileField('Photo', validators=[FileRequired(), FileAllowed(photos, 'Images only')])
+    comment = TextAreaField('Comment (optional)')
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+
+
+class Video2ActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    upload = FileField('Video', validators=[FileRequired()])
+    comment = TextAreaField('Comment (optional)')
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+# END OF ACTIVITY FORMS
+
+
 class ContactNumberForm(Form):
     contact_number = StringField("", validators=[DataRequired()])
     primary_number = BooleanField('Primary Number', default=False)
