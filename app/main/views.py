@@ -207,32 +207,6 @@ def activity_detail():
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
         form = Photo2ActivityForm()
-        if form.validate_on_submit():
-            activity_date = form.activity_date.data
-            activity_time = form.activity_time.data
-            comment = form.comment.data
-            private = form.privacy.data
-            s3 = boto3.client('s3')
-            s3.upload_file('form.upload.data', 'psa-one', 'test_file.png')
-            if ActivityLog.query.filter_by(students=student).all():
-                last = ActivityLog.query.filter_by(students=student).order_by(ActivityLog.timestamp.desc()).first()
-                id_inc = last.id + 1
-            activity_entry = ActivityLog(id=id_inc, timestamp=datetime.combine(activity_date, activity_time),
-                                         student_id=student.student_id,
-                                         activity_id=activity.activity_id,
-                                         comment=comment,
-                                         # filename=file_url,
-                                         private=private)
-            if current_user.is_administrator():
-                activity_entry.creator_role = 'admin'
-            else:
-                activity_entry.creator_role = 'parent'
-            student.activity.append(activity_entry)
-            activity.student.append(activity_entry)
-            db.session.commit()
-            return redirect(url_for('main.student', student_id=student.student_id))
-        form.activity_date.data = datetime.utcnow().date()
-        form.activity_time.data = datetime.utcnow().time()
     elif activity.activity_name == 'Video':
         form = Video2ActivityForm()
     elif activity.activity_name == 'Incident' or \
@@ -272,29 +246,6 @@ def activity_detail():
         abort(404)
     else:
         return render_template('activity_detail.html', activity=activity, student=student, form=form)
-
-
-# @main.route('/sign_s3/')
-# def sign_s3():
-#     S3_BUCKET = os.environ.get('S3_BUCKET')
-#
-#     file_name = request.args.get('file_name')
-#     file_type = request.args.get('file_type')
-#
-#     s3 = boto3.client('s3')
-#
-#     presigned_post = s3.generate_presigned_post(
-#         Bucket=S3_BUCKET,
-#         Key=file_name,
-#         Fields={"acl": "public-read", "Content-Type": file_type},
-#         Conditions=[
-#           {"acl": "public-read"},
-#           {"Content-Type": file_type}
-#         ],
-#         ExpiresIn=3600
-#         )
-#
-#     return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
 
 
 # @main.route("/activity-detail", methods=['GET', 'POST'])
@@ -1492,20 +1443,6 @@ def upload_old():
     return render_template('uploads_test_old.html')
 
 
-@main.route('/upload', methods=['GET', 'POST'])
-@login_required
-def upload():
-    form = UploadTestForm()
-    timestamp = None
-    comment = None
-    if form.validate_on_submit():
-        timestamp = form.timestamp1.data
-        comment = form.comment.data
-        return render_template('uploads_test.html', form=form, timestamp=timestamp, comment=comment)
-    form.timestamp1.data = datetime.utcnow()
-    return render_template('uploads_test.html', form=form, timestamp=timestamp, comment=comment)
-
-
 @main.route('/group-activity', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -1999,3 +1936,61 @@ def group_activity_detail():
                            , student_group_ref=student_group_ref
                            , group_size_ref=group_size_ref
                            , form=form)
+
+
+@main.route('/uploads-test', methods=['GET', 'POST'])
+@login_required
+def uploads_test():
+    return render_template('uploads_test.html')
+
+
+# Listen for POST requests to yourdomain.com/submit_form/
+@main.route('/submit-form/', methods=['POST'])
+@login_required
+def submit_form():
+    username = request.form["username"]
+    full_name = request.form["full-name"]
+    avatar_url = request.form["avatar-url"]
+    session['username_ref'] = username
+    session['full_name_ref'] = full_name
+    session['avatar_ref'] = avatar_url
+
+    # Provide some procedure for storing the new details
+    # update_account(username, full_name, avatar_url)
+
+    return redirect(url_for('main.uploads_test_output'))
+
+
+@main.route('/uploads_test_output', methods=['POST'])
+@login_required
+def uploads_test_output():
+    username = session.get('username_ref', None)
+    full_name = session.get('full_name_ref', None)
+    avatar_url = session.get('avatar_ref', None)
+    return render_template('uploads_test_output.html'
+                           , username=username
+                           , full_name=full_name
+                           , avatar_url=avatar_url)
+
+
+@main.route('/sign_s3/')
+def sign_s3():
+    S3_BUCKET = os.environ.get('S3_BUCKET')
+
+    file_name = request.args.get('file_name')
+    file_type = request.args.get('file_type')
+
+    s3 = boto3.client('s3')
+
+    presigned_post = s3.generate_presigned_post(
+        Bucket=S3_BUCKET,
+        Key=file_name,
+        Fields={"acl": "public-read", "Content-Type": file_type},
+        Conditions=[
+          {"acl": "public-read"},
+          {"Content-Type": file_type}
+        ],
+        ExpiresIn=3600
+        )
+
+    return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
