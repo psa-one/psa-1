@@ -243,6 +243,7 @@ def activity_detail():
     student_ref = session.get('student_ref', None)
     student = Student.query.filter_by(student_id=student_ref).first()
     id_inc = 1001
+    output = None
 
     def submit_file():
         if "user_file" not in request.files:
@@ -306,6 +307,9 @@ def activity_detail():
                                      activity_id=activity.activity_id,
                                      comment=comment,
                                      private=private)
+        if output is True:
+            file_url = str(output)
+            activity_entry.filename = file_url
         if current_user.is_administrator():
             activity_entry.creator_role = 'admin'
         else:
@@ -313,7 +317,7 @@ def activity_detail():
         student.activity.append(activity_entry)
         activity.student.append(activity_entry)
         db.session.commit()
-        return redirect(url_for('main.students', student_id=student.student_id))
+        return redirect(url_for('main.student', student_id=student.student_id))
     form.activity_date.data = datetime.utcnow().date()
     form.activity_time.data = datetime.utcnow().time()
     if activity is None:
