@@ -197,44 +197,6 @@ def show_profile():
     return resp
 
 
-# @main.route("/submit-file", methods=["POST"])
-# def submit_file():
-#     if "user_file" not in request.files:
-#         return "No user_file key in request.files"
-#     file = request.files["user_file"]
-#     if file.filename == "":
-#         return "Please select a file"
-#     if file:
-#         file.filename = secure_filename(file.filename)
-#         output = upload(file, "S3_BUCKET")
-#         return str(output)
-#     else:
-#         return redirect(url_for('main.uploads_test'))
-#
-#
-# @main.route('/upload', methods=['GET', 'POST'])
-# @login_required
-# def upload(file, bucket_name, acl="public-read"):
-#     S3_BUCKET = os.environ.get('S3_BUCKET')
-#     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-#     s3 = boto3.client('s3')
-#     try:
-#         s3.upload_fileobj(
-#             file,
-#             S3_BUCKET,
-#             file.filename,
-#             ExtraArgs={
-#                 "ACL": acl,
-#                 "ContentType": file.content_type
-#             }
-#         )
-#     except Exception as e:
-#         # This is a catch all exception, edit this part to fit your needs.
-#         print("Something Happened: ", e)
-#         return e
-#     return "{}{}".format(S3_LOCATION, file.filename)
-
-
 @main.route("/activity-detail", methods=['GET', 'POST'])
 @login_required
 def activity_detail():
@@ -255,8 +217,8 @@ def activity_detail():
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
-        else:
-            return 'Need to fill this in'
+        # else:
+            # return 'Need to fill this in'
 
     def upload(file, bucket_name, acl="public-read"):
         S3_BUCKET = os.environ.get('S3_BUCKET')
@@ -273,7 +235,6 @@ def activity_detail():
                 }
             )
         except Exception as e:
-            # This is a catch all exception, edit this part to fit your needs.
             print("Something Happened: ", e)
             return e
         return "{}{}".format(S3_LOCATION, file.filename)
@@ -283,7 +244,6 @@ def activity_detail():
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
         form = Photo2ActivityForm()
-        # submit_file()
     elif activity.activity_name == 'Video':
         form = Video2ActivityForm()
     elif activity.activity_name == 'Incident' or \
@@ -307,7 +267,7 @@ def activity_detail():
                                      activity_id=activity.activity_id,
                                      comment=comment,
                                      private=private)
-        if activity.activity_name == 'Photo':
+        if activity.activity_name == 'Audio' or activity.activity_name == 'Photo' or activity.activity_name == 'Video':
             activity_entry.filename = submit_file()
         if current_user.is_administrator():
             activity_entry.creator_role = 'admin'
