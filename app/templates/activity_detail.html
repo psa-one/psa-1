@@ -14,7 +14,7 @@
 </div>
 <h3></h3>
 <div>
-    <!--{% if activity.activity_name == 'Audio' or activity.activity_name == 'Photo' or activity.activity_name == 'Video' %}-->
+    {% if activity.activity_name == 'Audio' or activity.activity_name == 'Photo' or activity.activity_name == 'Video' %}
     <div class="col-md-6">
         <form action="" method="post" enctype=multipart/form-data>
             {{ form.hidden_tag() }}
@@ -72,7 +72,6 @@
             </div>
         </form>
     </div>
-    <!--
     {% else %}
 
     <div class="col-md-6">
@@ -112,7 +111,7 @@
     </div>
 
     {% endif %}
-    -->
+    
 <br />
 </div>
 {% endblock %}
