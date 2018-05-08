@@ -202,15 +202,6 @@ def submit_file():
     if "user_file" not in request.files:
         return "No user_file key in request.files"
     file = request.files["user_file"]
-    """
-        These attributes are also available
-
-        file.filename               # The actual name of the file
-        file.content_type
-        file.content_length
-        file.mimetype
-
-    """
     if file.filename == "":
         return "Please select a file"
     if file:
@@ -257,7 +248,6 @@ def activity_detail():
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
         form = Photo2ActivityForm()
-        submit_file()
     elif activity.activity_name == 'Video':
         form = Video2ActivityForm()
     elif activity.activity_name == 'Incident' or \
