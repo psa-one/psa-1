@@ -75,7 +75,36 @@
 
     {% else %}
 
-        <p>Hello</p>
+    <div class="col-md-6">
+        <form action="" method="post" enctype=multipart/form-data>
+            {{ form.hidden_tag() }}
+                <div>
+                    {{ form.activity_date.label }}
+                    {{ form.activity_date(class="form-control") }}
+                </div>
+            <br />
+                <div>
+                    {{ form.activity_time.label }}
+                    {{ form.activity_time(class="form-control") }}
+                </div>
+            <br />
+                <div>
+                    <div class="checkbox">
+                        <label><input id="privacy2" name="privacy" type="checkbox" value="">Private</label>
+                    </div>
+                </div>
+            <br />
+            <div>
+
+                <a class="btn btn-default" href="{{ url_for('main.student', student_id=student.student_id) }}">
+                    Cancel
+                </a>
+                <span>&nbsp</span>
+
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
 
     {% endif %}
 

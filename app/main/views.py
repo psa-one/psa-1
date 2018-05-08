@@ -1941,19 +1941,6 @@ def group_activity_detail():
                            , form=form)
 
 
-# @main.route('/uploads-test', methods=['GET', 'POST'])
-# @login_required
-# def uploads_test():
-#     return render_template('uploads_test.html')
-#
-#
-# @main.route('/upload', methods=['GET', 'POST'])
-# @login_required
-# def upload():
-#     s3 = boto3.resource('s3')
-#     s3.Bucket('psa-one').put_object(Key='my_image2.png', Body=request.files['file_input'])
-#     return '<h1>File saved to S3</h1>'
-
 @main.route('/uploads-test', methods=['GET', 'POST'])
 @login_required
 def uploads_test():

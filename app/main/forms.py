@@ -268,7 +268,7 @@ class RequiredCommentActivityForm(Form):
 class Audio2ActivityForm(Form):
     activity_date = DateField('Date')
     activity_time = TimeField('Time')
-    upload = FileField('Audio', validators=[FileRequired()])
+    user_file = FileField('Audio', validators=[FileRequired()])
     comment = TextAreaField('Comment (optional)')
     privacy = BooleanField('Private', default=False)
     submit = SubmitField('Submit')
@@ -277,7 +277,7 @@ class Audio2ActivityForm(Form):
 class Photo2ActivityForm(Form):
     activity_date = DateField('Date')
     activity_time = TimeField('Time')
-    upload = FileField('Photo', validators=[FileRequired(), FileAllowed(photos, 'Images only')])
+    user_file = FileField('Photo', validators=[FileRequired(), FileAllowed(photos, 'Images only')])
     comment = TextAreaField('Comment (optional)')
     privacy = BooleanField('Private', default=False)
     submit = SubmitField('Submit')
@@ -286,7 +286,7 @@ class Photo2ActivityForm(Form):
 class Video2ActivityForm(Form):
     activity_date = DateField('Date')
     activity_time = TimeField('Time')
-    upload = FileField('Video', validators=[FileRequired()])
+    user_file = FileField('Video', validators=[FileRequired()])
     comment = TextAreaField('Comment (optional)')
     privacy = BooleanField('Private', default=False)
     submit = SubmitField('Submit')
