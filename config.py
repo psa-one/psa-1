@@ -24,6 +24,7 @@ class Config:
     # UPLOADED_VIDEOS_DEST = 'app/static/vid'
     SSL_REDIRECT = False
 
+
     @staticmethod
     def init_app(app):
         pass

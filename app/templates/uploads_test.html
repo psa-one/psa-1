@@ -11,10 +11,13 @@
     </div>
 
     <div class="col-md-6">
-        <form method="POST" enctype=multipart/form-data action="{{ url_for('main.upload') }}">
-            <input type="file" name="file_input">
-            <input type="submit" value="Submit">
-        </form>
+        <form action="{{ url_for('main.upload') }}" method="POST" enctype="multipart/form-data">
+
+        <input type="file" name="user_file">
+        <br />
+        <button type="submit">Upload</button>
+
+    </form>
         <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </div>
 {% endblock %}
