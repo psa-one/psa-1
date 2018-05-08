@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0ebbde-f658-4d2c-aa4f-e9dfbcaa9436" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/main/views.py" afterPath="$PROJECT_DIR$/app/main/views.py" />
       <change beforePath="$PROJECT_DIR$/app/templates/uploads_test.html" afterPath="$PROJECT_DIR$/app/templates/uploads_test.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,13 +38,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="uploads_test.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="uploads_test.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1144">
-              <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+            <state relative-caret-position="697">
+              <caret line="41" column="55" lean-forward="true" selection-start-line="41" selection-start-column="55" selection-end-line="41" selection-end-column="55" />
               <folding>
-                <element signature="n#style#0;n#img#0;n#div#2;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#img#0;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -62,10 +60,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1232">
+            <state relative-caret-position="1028">
               <caret line="2000" column="39" lean-forward="true" selection-start-line="2000" selection-start-column="39" selection-end-line="2000" selection-end-column="39" />
               <folding>
                 <element signature="e#0#112#0" expanded="true" />
@@ -145,8 +143,8 @@
         <option value="$PROJECT_DIR$/app/templates/activity_detail.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test-output.html" />
         <option value="$PROJECT_DIR$/app/templates/uploads_test_output.html" />
-        <option value="$PROJECT_DIR$/app/templates/uploads_test.html" />
         <option value="$PROJECT_DIR$/app/main/views.py" />
+        <option value="$PROJECT_DIR$/app/templates/uploads_test.html" />
       </list>
     </option>
   </component>
@@ -660,22 +658,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
+    <entry file="file://$PROJECT_DIR$/app/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
-          <caret line="88" column="0" lean-forward="true" selection-start-line="88" selection-start-column="0" selection-end-line="88" selection-end-column="0" />
+        <state relative-caret-position="1028">
+          <caret line="2000" column="39" lean-forward="true" selection-start-line="2000" selection-start-column="39" selection-end-line="2000" selection-end-column="39" />
           <folding>
-            <element signature="n#style#0;n#img#0;n#div#2;n#!!top" expanded="true" />
+            <element signature="e#0#112#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/main/views.py">
+    <entry file="file://$PROJECT_DIR$/app/templates/uploads_test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1232">
-          <caret line="2000" column="39" lean-forward="true" selection-start-line="2000" selection-start-column="39" selection-end-line="2000" selection-end-column="39" />
+        <state relative-caret-position="697">
+          <caret line="41" column="55" lean-forward="true" selection-start-line="41" selection-start-column="55" selection-end-line="41" selection-end-column="55" />
           <folding>
-            <element signature="e#0#112#0" expanded="true" />
+            <element signature="n#style#0;n#img#0;n#div#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
