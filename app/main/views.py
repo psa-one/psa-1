@@ -1941,64 +1941,6 @@ def group_activity_detail():
                            , form=form)
 
 
-# @main.route('/uploads-test')
-# @login_required
-# def uploads_test():
-#     return render_template('uploads_test.html')
-#
-#
-# # Listen for POST requests to yourdomain.com/submit_form/
-# @main.route('/submit-form/', methods=['POST'])
-# @login_required
-# def submit_form():
-#     username = request.form["username"]
-#     full_name = request.form["full-name"]
-#     avatar_url = request.form["avatar-url"]
-#     session['username_ref'] = username
-#     session['full_name_ref'] = full_name
-#     session['avatar_ref'] = avatar_url
-#
-#     # Provide some procedure for storing the new details
-#     # update_account(username, full_name, avatar_url)
-#
-#     return redirect(url_for('main.uploads_test_output'))
-#
-#
-# @main.route('/uploads-test-output', methods=['GET', 'POST'])
-# @login_required
-# def uploads_test_output():
-#     username = session.get('username_ref', None)
-#     full_name = session.get('full_name_ref', None)
-#     avatar_url = session.get('avatar_ref', None)
-#     return render_template('uploads_test_output.html'
-#                            , username=username
-#                            , full_name=full_name
-#                            , avatar_url=avatar_url)
-#
-#
-# @main.route('/sign-s3/')
-# def sign_s3():
-#     S3_BUCKET = os.environ.get('S3_BUCKET')
-#
-#     file_name = request.args.get('file_name')
-#     file_type = request.args.get('file_type')
-#
-#     s3 = boto3.client('s3')
-#
-#     presigned_post = s3.generate_presigned_post(
-#         Bucket=S3_BUCKET,
-#         Key=file_name,
-#         Fields={"acl": "public-read", "Content-Type": file_type},
-#         Conditions=[
-#           {"acl": "public-read"},
-#           {"Content-Type": file_type}
-#         ],
-#         ExpiresIn=3600
-#     )
-#
-#     return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
-
-
 # @main.route('/uploads-test', methods=['GET', 'POST'])
 # @login_required
 # def uploads_test():
@@ -2022,9 +1964,7 @@ def uploads_test():
 def submit():
     if "user_file" not in request.files:
         return "No user_file key in request.files"
-
     file = request.files["user_file"]
-
     """
         These attributes are also available
 
@@ -2036,7 +1976,6 @@ def submit():
     """
     if file.filename == "":
         return "Please select a file"
-
     if file:
         file.filename = secure_filename(file.filename)
         output = upload(file, "S3_BUCKET")
@@ -2047,28 +1986,22 @@ def submit():
 
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
-def upload(file, bucket_name, acl="public-read"):
+def upload(file, acl="public-read"):
     S3_BUCKET = os.environ.get('S3_BUCKET')
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-    s3 = boto3.client(
-        's3',
-    )
-
+    s3 = boto3.client('s3')
     try:
-
         s3.upload_fileobj(
             file,
-            'psa-one',
+            S3_BUCKET,
             file.filename,
             ExtraArgs={
                 "ACL": acl,
                 "ContentType": file.content_type
             }
         )
-
     except Exception as e:
         # This is a catch all exception, edit this part to fit your needs.
         print("Something Happened: ", e)
         return e
-
     return "{}{}".format(S3_LOCATION, file.filename)
