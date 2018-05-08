@@ -2019,9 +2019,9 @@ def submit():
         return redirect(url_for('main.uploads_test'))
 
 
-@main.route('/upload', methods=['GET', 'POST'])
+@main.route('/upload-old', methods=['GET', 'POST'])
 @login_required
-def upload(file, bucket_name, acl="public-read"):
+def upload_old(file, bucket_name, acl="public-read"):
     S3_BUCKET = os.environ.get('S3_BUCKET')
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
     s3 = boto3.client('s3')
