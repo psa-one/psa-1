@@ -236,7 +236,7 @@ class Activity(db.Model):
                       'Note',
                       'Photo',
                       'Video',
-                      'Audio',
+                      # 'Audio',
                       'Reminder'}
         for a in activities:
             activity = Activity.query.filter_by(activity_name=a).first()
