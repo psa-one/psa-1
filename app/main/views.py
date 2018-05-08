@@ -1986,14 +1986,14 @@ def submit():
 
 @main.route('/upload', methods=['GET', 'POST'])
 @login_required
-def upload(file, acl="public-read"):
+def upload(file, bucket_name, acl="public-read"):
     S3_BUCKET = os.environ.get('S3_BUCKET')
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
     s3 = boto3.client('s3')
     try:
         s3.upload_fileobj(
             file,
-            'psa-one',
+            S3_BUCKET,
             file.filename,
             ExtraArgs={
                 "ACL": acl,
