@@ -1993,7 +1993,7 @@ def upload(file, acl="public-read"):
     try:
         s3.upload_fileobj(
             file,
-            S3_BUCKET,
+            'psa-one',
             file.filename,
             ExtraArgs={
                 "ACL": acl,
