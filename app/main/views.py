@@ -15,7 +15,9 @@ from ..models import Room, School, Student, Status, Role, User, StudentStatus, P
     Activity, ActivityLog, Contact, Address, Gender, ParentContact
 from ..decorators import admin_required, permission_required
 from werkzeug.utils import secure_filename
-import os, json, boto3
+import os
+import json
+import boto3
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -1938,7 +1940,7 @@ def group_activity_detail():
                            , form=form)
 
 
-@main.route('/uploads-test', methods=['GET', 'POST'])
+@main.route('/uploads-test')
 @login_required
 def uploads_test():
     return render_template('uploads_test.html')
@@ -1961,7 +1963,7 @@ def submit_form():
     return redirect(url_for('main.uploads_test_output'))
 
 
-@main.route('/uploads_test_output', methods=['GET', 'POST'])
+@main.route('/uploads-test-output', methods=['GET', 'POST'])
 @login_required
 def uploads_test_output():
     username = session.get('username_ref', None)
@@ -1973,7 +1975,7 @@ def uploads_test_output():
                            , avatar_url=avatar_url)
 
 
-@main.route('/sign_s3/')
+@main.route('/sign-s3/')
 def sign_s3():
     S3_BUCKET = os.environ.get('S3_BUCKET')
 
@@ -1991,7 +1993,7 @@ def sign_s3():
           {"Content-Type": file_type}
         ],
         ExpiresIn=3600
-        )
+    )
 
     return json.dumps({'data': presigned_post, 'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)})
 
