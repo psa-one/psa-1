@@ -243,7 +243,6 @@ def activity_detail():
     student_ref = session.get('student_ref', None)
     student = Student.query.filter_by(student_id=student_ref).first()
     id_inc = 1001
-    output = None
 
     def submit_file():
         if "user_file" not in request.files:
@@ -254,7 +253,8 @@ def activity_detail():
         if file:
             file.filename = secure_filename(file.filename)
             output = upload(file, "S3_BUCKET")
-            return str(output)
+            output_url = str(output)
+            return output_url
         else:
             return 'Need to fill this in'
 
@@ -283,7 +283,7 @@ def activity_detail():
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
         form = Photo2ActivityForm()
-        submit_file()
+        # submit_file()
     elif activity.activity_name == 'Video':
         form = Video2ActivityForm()
     elif activity.activity_name == 'Incident' or \
@@ -307,9 +307,8 @@ def activity_detail():
                                      activity_id=activity.activity_id,
                                      comment=comment,
                                      private=private)
-        if output is True:
-            file_url = str(output)
-            activity_entry.filename = file_url
+        if activity.activity_name == 'Photo':
+            activity_entry.filename = submit_file()
         if current_user.is_administrator():
             activity_entry.creator_role = 'admin'
         else:
