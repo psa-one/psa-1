@@ -2052,8 +2052,8 @@ def upload(file, bucket_name, acl="public-read"):
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
     s3 = boto3.client(
         's3',
-        S3_KEY=os.environ.get("AWS_ACCESS_KEY_ID"),
-        S3_SECRET=os.environ.get("AWS_SECRET_ACCESS_KEY")
+        # S3_KEY=os.environ.get("AWS_ACCESS_KEY_ID"),
+        # S3_SECRET=os.environ.get("AWS_SECRET_ACCESS_KEY")
     )
 
     try:
