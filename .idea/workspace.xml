@@ -62,7 +62,7 @@
         <entry file="file://$PROJECT_DIR$/app/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1144">
-              <caret line="2042" column="0" lean-forward="true" selection-start-line="2042" selection-start-column="0" selection-end-line="2042" selection-end-column="0" />
+              <caret line="1989" column="0" lean-forward="true" selection-start-line="1989" selection-start-column="0" selection-end-line="1989" selection-end-column="0" />
               <folding>
                 <element signature="e#0#112#0" expanded="true" />
               </folding>
@@ -647,7 +647,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#33#0" expanded="true" />
+            <element signature="e#0#33#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -689,7 +689,7 @@
     <entry file="file://$PROJECT_DIR$/app/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1144">
-          <caret line="2042" column="0" lean-forward="true" selection-start-line="2042" selection-start-column="0" selection-end-line="2042" selection-end-column="0" />
+          <caret line="1989" column="0" lean-forward="true" selection-start-line="1989" selection-start-column="0" selection-end-line="1989" selection-end-column="0" />
           <folding>
             <element signature="e#0#112#0" expanded="true" />
           </folding>
