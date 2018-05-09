@@ -208,15 +208,19 @@ def activity_detail():
 
     def submit_file():
         if "user_file" not in request.files:
-            return "No user_file key in request.files"
+            # return "No user_file key in request.files"
+            return ''
         file = request.files["user_file"]
         if file.filename == "":
-            return "Please select a file"
+            # return "Please select a file"
+            return ''
         if file:
             file.filename = secure_filename(file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
+        else:
+            return ''
 
     def upload(file, bucket_name, acl="public-read"):
         S3_BUCKET = os.environ.get('S3_BUCKET')
