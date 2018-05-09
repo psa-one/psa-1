@@ -205,6 +205,8 @@ def activity_detail():
     student_ref = session.get('student_ref', None)
     student = Student.query.filter_by(student_id=student_ref).first()
     id_inc = 1001
+    file_date = datetime.utcnow
+    file_user = current_user.id
 
     def submit_file():
         if "user_file" not in request.files:
@@ -215,7 +217,7 @@ def activity_detail():
             # return "Please select a file"
             return ''
         if file:
-            file.filename = secure_filename('hello'+file.filename)
+            file.filename = secure_filename(file_date+'_'+file_user+'_'+file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
