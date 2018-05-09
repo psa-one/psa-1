@@ -215,7 +215,7 @@ def activity_detail():
             # return "Please select a file"
             return ''
         if file:
-            file.filename = secure_filename(file.filename)
+            file.filename = secure_filename('hello'+file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
