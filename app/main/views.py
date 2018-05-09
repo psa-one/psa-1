@@ -205,7 +205,7 @@ def activity_detail():
     student_ref = session.get('student_ref', None)
     student = Student.query.filter_by(student_id=student_ref).first()
     id_inc = 1001
-    file_date = datetime.utcnow
+    file_date = datetime.now()
     file_user = current_user.id
 
     def submit_file():
