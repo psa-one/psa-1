@@ -235,7 +235,7 @@ class Activity(db.Model):
                       'Medication',
                       'Note',
                       'Photo',
-                      'Video',
+                      # 'Video',
                       # 'Audio',
                       'Reminder'}
         for a in activities:
