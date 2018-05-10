@@ -20,7 +20,7 @@
                 <img class="img-circle" width="60px" src="/static/img/avatar-1577909_640.png">
             {% endif %}
             <a href="{{ url_for('.student', student_id=i.student_id) }}">
-            <span>&nbsp</span>{{ i.last_name }}, {{ i.first_name }}
+            <span>&nbsp</span>{{ i.first_name }} {{ i.last_name }}
         </a></li><br />
         {% endfor %}
     </ul>
