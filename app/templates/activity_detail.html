@@ -3,6 +3,8 @@
 
 {% block scripts %}
     {{ super() }}
+
+<script>
     function getOrientation(file, callback) {
       var reader = new FileReader();
 
@@ -49,7 +51,7 @@
         alert(orientation);
       });
     };
-
+</script>
 {% endblock %}
 
 {% block title %}Activity Detail{% endblock %}
