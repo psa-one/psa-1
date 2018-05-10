@@ -283,6 +283,15 @@ class Photo2ActivityForm(Form):
     submit = SubmitField('Submit')
 
 
+class EditPhoto2ActivityForm(Form):
+    activity_date = DateField('Date')
+    activity_time = TimeField('Time')
+    # upload = FileField('Photo', validators=[FileRequired(), FileAllowed(photos, 'Images only')])
+    comment = TextAreaField('Comment (optional)')
+    privacy = BooleanField('Private', default=False)
+    submit = SubmitField('Submit')
+
+
 class Video2ActivityForm(Form):
     activity_date = DateField('Date')
     activity_time = TimeField('Time')

@@ -8,7 +8,8 @@ from .forms import RoomForm, EditProfileForm, EditProfileAdminForm, StudentForm,
     MedicationActivityForm, NapActivityForm, NoteActivityForm, PhotoActivityForm, PottyActivityForm, \
     ReminderActivityForm, VideoActivityForm, ContactNumberForm, AddressForm, SchoolNameForm, UploadTestForm, \
     AvatarForm, UpdateRoomForm, EditContactNumberForm, ChangePasswordForm, GroupActivityForm, \
-    GeneralActivityForm, RequiredCommentActivityForm, Audio2ActivityForm, Photo2ActivityForm, Video2ActivityForm
+    GeneralActivityForm, RequiredCommentActivityForm, Audio2ActivityForm, Photo2ActivityForm, Video2ActivityForm, \
+    EditPhoto2ActivityForm
 from ..auth.forms import StudentParentForm
 from .. import db, photos, videos, audio
 from ..models import Room, School, Student, Status, Role, User, StudentStatus, Permission, Parent, StudentParent, \
@@ -503,7 +504,7 @@ def edit_activity_detail(id):
         form.comment.data = activity.comment
     # PHOTO
     if activity.activities.activity_name == 'Photo':
-        form = PhotoActivityForm()
+        form = EditPhoto2ActivityForm()
         if form.validate_on_submit():
             activity_date = form.activity_date.data
             activity_time = form.activity_time.data
@@ -513,9 +514,9 @@ def edit_activity_detail(id):
             activity.timestamp = activity_datetime
             activity.comment = comment
             activity.private = private
-            file = photos.save(form.upload.data)
-            file_url = photos.url(file)
-            activity.filename = file_url
+            # file = photos.save(form.upload.data)
+            # file_url = photos.url(file)
+            # activity.filename = file_url
             db.session.add(activity)
             db.session.commit()
             return redirect(url_for('main.student', student_id=student.student_id))
