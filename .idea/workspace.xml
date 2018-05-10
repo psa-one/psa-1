@@ -65,8 +65,8 @@
       <file leaf-file-name="student.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/student.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="807">
-              <caret line="125" column="82" lean-forward="false" selection-start-line="125" selection-start-column="82" selection-end-line="125" selection-end-column="82" />
+            <state relative-caret-position="7769">
+              <caret line="457" column="10" lean-forward="true" selection-start-line="457" selection-start-column="10" selection-end-line="457" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -687,8 +687,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/student.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="807">
-          <caret line="125" column="82" lean-forward="false" selection-start-line="125" selection-start-column="82" selection-end-line="125" selection-end-column="82" />
+        <state relative-caret-position="7769">
+          <caret line="457" column="10" lean-forward="true" selection-start-line="457" selection-start-column="10" selection-end-line="457" selection-end-column="10" />
           <folding />
         </state>
       </provider>
