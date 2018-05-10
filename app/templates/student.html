@@ -123,7 +123,7 @@ resetOrientation(originalImage.src, 6, function(resetBase64Image) {
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
+                            <br /><br /><img class="img-responsive" width="360px" image-orientation="from-image" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
@@ -420,7 +420,7 @@ resetOrientation(originalImage.src, 6, function(resetBase64Image) {
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <br /><br /><img class="img-responsive" image-orientation="from-image" width="360px" src="{{ activity.filename }}">
+                            <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
                             <br /><br />
