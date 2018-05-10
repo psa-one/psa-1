@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+{% block scripts %}
+    {{ super() }}
+
+{% endblock %}
+
 {% block title %}PSA-ONE{% endblock %}
 
 
@@ -43,8 +48,6 @@
         {% if active_tab == '' or active_tab == '1' %}
         <div>
             <div>
-                <!--{{ wtf.quick_form(activity_form) }}-->
-
                 <form action="" method="post">
                     {{ activity_form.hidden_tag() }}
                     <div>{{ activity_form.activity.label }}:<span>&nbsp</span> {{ activity_form.activity(class="inline-form-control") }}
@@ -72,7 +75,6 @@
                             <br />{{ activity.comment }}
                             {% endif %}
                             {% if activity.activities.activity_name == 'Photo' %}
-                            <!--<br /><br /><img class="img-responsive" width="360px" src="/static/img/{{ activity.filename }}">-->
                             <br /><br /><img class="img-responsive" width="360px" src="{{ activity.filename }}">
                             {% endif %}
                             {% if activity.activities.activity_name == 'Video' %}
