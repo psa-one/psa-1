@@ -15,7 +15,7 @@
         {% for parent in parents %}
         <li>
             <a href="{{ url_for('.parent', parent_id=parent.parent_id) }}">
-                {{ parent.last_name }}, {{ parent.first_name }}
+                {{ parent.first_name }} {{ parent.last_name }}
             </a>
         </li>
         {% endfor %}

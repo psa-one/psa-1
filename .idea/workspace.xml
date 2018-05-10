@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe0ebbde-f658-4d2c-aa4f-e9dfbcaa9436" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/templates/activity_detail.html" afterPath="$PROJECT_DIR$/app/templates/activity_detail.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/students.html" afterPath="$PROJECT_DIR$/app/templates/students.html" />
+      <change beforePath="$PROJECT_DIR$/app/templates/parents.html" afterPath="$PROJECT_DIR$/app/templates/parents.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -51,11 +50,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="students.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="students.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/students.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="459">
               <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="parents.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/templates/parents.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="17" column="62" lean-forward="true" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
               <folding />
             </state>
           </provider>
@@ -127,7 +136,6 @@
         <option value="$PROJECT_DIR$/app/templates/room.html" />
         <option value="$PROJECT_DIR$/app/templates/multi_test.html" />
         <option value="$PROJECT_DIR$/app/templates/rooms.html" />
-        <option value="$PROJECT_DIR$/app/templates/parents.html" />
         <option value="$PROJECT_DIR$/app/templates/group_activity_detail.html" />
         <option value="$PROJECT_DIR$/app/templates/auth/create_school.html" />
         <option value="$PROJECT_DIR$/app/templates/auth/register.html" />
@@ -166,6 +174,7 @@
         <option value="$PROJECT_DIR$/app/templates/student.html" />
         <option value="$PROJECT_DIR$/app/templates/activity_detail.html" />
         <option value="$PROJECT_DIR$/app/templates/students.html" />
+        <option value="$PROJECT_DIR$/app/templates/parents.html" />
       </list>
     </option>
   </component>
@@ -337,7 +346,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sdsdv" />
     <entry file="file://C:/Program Files/Git/ReleaseNotes.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1275">
@@ -700,6 +708,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="14" lean-forward="true" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/templates/parents.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="62" lean-forward="true" selection-start-line="17" selection-start-column="62" selection-end-line="17" selection-end-column="62" />
           <folding />
         </state>
       </provider>
