@@ -329,14 +329,14 @@ class SchoolNameForm(Form):
     submit = SubmitField('Submit')
 
 
-class UploadTestForm(Form):
-    timestamp1 = DateTimeField('WTForms DateTimeField')
-    comment = TextAreaField('Comment (optional)')
-    submit = SubmitField('Submit')
-
-
 class GroupActivityForm(Form):
     activity = SelectField('Choose activity', coerce=int)
     # students = MultiCheckboxField('Students', coerce=int)
     students = SelectMultipleField('Students', coerce=int)
     submit = SubmitField('Next: Step 3 - Activity Detail')
+
+
+class UploadTestForm(Form):
+    # timestamp1 = DateTimeField('WTForms DateTimeField')
+    user_file = FileField('File')
+    submit = SubmitField('Submit')

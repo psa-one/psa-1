@@ -20,6 +20,7 @@ import os
 import json
 import boto3
 import botocore
+from PIL import Image, ExifTags
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -218,7 +219,23 @@ def activity_detail():
             # return "Please select a file"
             return ''
         if file:
-            file.filename = secure_filename(str(file_user)+'_'+str(file_date)+'_'+file.filename)
+            metaData = {}
+            image = Image.open(file)
+            if hasattr(image, '_getexif'):
+                info = image._getexif()
+                if info:
+                    for (tag, value) in info.items():
+                        tagname = ExifTags.TAGS.get(tag, tag)
+                        metaData[tagname] = value
+                    if 'Orientation' in metaData:
+                        o = metaData.get('Orientation')
+                        if o == 3:
+                            file = image.transpose(Image.ROTATE_180)
+                        elif o == 6:
+                            file = image.transpose(Image.ROTATE_270)
+                        elif o == 8:
+                            file = image.transpose(Image.ROTATE_90)
+            file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
@@ -243,7 +260,6 @@ def activity_detail():
             print("Something Happened: ", e)
             return e
         return "{}{}".format(S3_LOCATION, file.filename)
-
     # ACTIVITY CREATION
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
@@ -1041,20 +1057,6 @@ def edit_profile_admin(id):
         abort(404)
 
 
-@main.route('/upload-old', methods=['GET', 'POST'])
-@login_required
-def upload_old():
-    if request.method == 'POST' and 'photo' in request.files:
-        try:
-            filename = photos.save(request.files['photo'])
-            flash('{} uploaded successfully'.format(filename))
-            return redirect(url_for('.upload_old'))
-        except:
-            flash("Upload unsuccessful. Please ensure you're uploading an image")
-            return redirect(url_for('.upload_old'))
-    return render_template('uploads_test_old.html')
-
-
 @main.route('/group-activity', methods=['GET', 'POST'])
 @login_required
 @admin_required
@@ -1548,3 +1550,40 @@ def group_activity_detail():
                            , student_group_ref=student_group_ref
                            , group_size_ref=group_size_ref
                            , form=form)
+
+
+@main.route('/upload-test', methods=['GET', 'POST'])
+@login_required
+def upload_test():
+    o = None
+    if request.method == 'POST':
+        file = request.files["user_file"]
+        metaData = {}
+        image = Image.open(file)
+        if hasattr(image, '_getexif'):
+            info = image._getexif()
+            if info:
+                for (tag, value) in info.items():
+                    tagname = ExifTags.TAGS.get(tag, tag)
+                    metaData[tagname] = value
+                if 'Orientation' in metaData:
+                    o = metaData.get('Orientation')
+                    # return render_template('upload_test.html')
+                    # print metaData.get('Orientation')
+                    if o == 3:
+                        file = image.transpose(Image.ROTATE_180)
+                    elif o == 6:
+                        file = image.transpose(Image.ROTATE_270)
+                    elif o == 8:
+                        file = image.transpose(Image.ROTATE_90)
+                    return render_template('upload_test.html', o=o)
+                else:
+                    flash('No orientation data')
+                    return render_template('upload_test.html', o=o)
+            else:
+                flash('No EXIF data')
+                return render_template('upload_test.html', o=o)
+        else:
+            flash('This is not a jpg')
+            return render_template('upload_test.html')
+    return render_template('upload_test.html', o=o)
