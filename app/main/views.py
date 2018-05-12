@@ -230,11 +230,12 @@ def activity_detail():
                     if 'Orientation' in metaData:
                         o = metaData.get('Orientation')
                         if o == 3:
-                            file = image.transpose(Image.ROTATE_180)
+                            image = image.transpose(Image.ROTATE_180).save(file.filename)
                         elif o == 6:
-                            file = image.transpose(Image.ROTATE_270)
+                            image = image.transpose(Image.ROTATE_270).save(file.filename)
                         elif o == 8:
-                            file = image.transpose(Image.ROTATE_90)
+                            image = image.transpose(Image.ROTATE_90).save(file.filename)
+                        file = image
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
