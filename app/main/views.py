@@ -237,7 +237,7 @@ def activity_detail():
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
                         in_mem_file = io.BytesIO()
-                        image.save(in_mem_file)
+                        image.save(in_mem_file, format=format)
                         file = in_mem_file.getvalue()
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
