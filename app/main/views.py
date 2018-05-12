@@ -21,6 +21,7 @@ import json
 import boto3
 import botocore
 from PIL import Image, ExifTags
+import io
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -235,8 +236,9 @@ def activity_detail():
                             image.transpose(Image.ROTATE_270)
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
-                        image.save(file.filename)
-                        file = image
+                        in_mem_file = io.BytesIO()
+                        image.save(in_mem_file)
+                        file = in_mem_file.getvalue()
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
@@ -262,7 +264,7 @@ def activity_detail():
             print("Something Happened: ", e)
             return e
         return "{}{}".format(S3_LOCATION, file.filename)
-    # ACTIVITY CREATION
+
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
     elif activity.activity_name == 'Photo':
@@ -1570,15 +1572,15 @@ def upload_test():
                     metaData[tagname] = value
                 if 'Orientation' in metaData:
                     o = metaData.get('Orientation')
-                    # return render_template('upload_test.html')
-                    # print metaData.get('Orientation')
                     if o == 3:
-                        file = image.transpose(Image.ROTATE_180)
+                        image.transpose(Image.ROTATE_180)
                     elif o == 6:
-                        file = image.transpose(Image.ROTATE_270)
+                        image.transpose(Image.ROTATE_270)
                     elif o == 8:
-                        file = image.transpose(Image.ROTATE_90)
-                    return render_template('upload_test.html', o=o)
+                        image.transpose(Image.ROTATE_90)
+                    # image.save(file.filename)
+                    file = image
+                    return ''
                 else:
                     flash('No orientation data')
                     return render_template('upload_test.html', o=o)
