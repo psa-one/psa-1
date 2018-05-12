@@ -21,7 +21,7 @@ import json
 import boto3
 import botocore
 from PIL import Image, ExifTags
-import StringIO
+import io
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -236,7 +236,7 @@ def activity_detail():
                             image.transpose(Image.ROTATE_270)
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
-                        temp = StringIO.StringIO()
+                        temp = io.StringIO()
                         image.save(temp, file.filename, format="jpeg")
                         file = temp.getvalue()
                         temp.close()
