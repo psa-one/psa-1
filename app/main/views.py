@@ -21,7 +21,7 @@ import json
 import boto3
 import botocore
 from PIL import Image, ExifTags
-import io
+import StringIO
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -236,8 +236,10 @@ def activity_detail():
                             image.transpose(Image.ROTATE_270)
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
-                        temp = io.StringIO()
-                        file = image.save(temp, format="JPEG")
+                        temp = StringIO.StringIO()
+                        image.save(temp, file.filename, format="jpeg")
+                        file = temp.getvalue()
+                        temp.close()
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
