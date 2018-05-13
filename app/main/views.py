@@ -284,7 +284,7 @@ def activity_detail():
                         Key=file.filename,
                         ACL="public-read"
                     )
-                    obj.put(Body=buffer)
+                    obj.put(Body=buffer.read())
                 else:
                     s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
                                                     ACL="public-read")
