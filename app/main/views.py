@@ -249,6 +249,7 @@ def activity_detail():
         if "user_file" not in request.files:
             return ''
         file = request.files["user_file"]
+        buffer = None
         if file.filename == "":
             return ''
         if file:
@@ -271,31 +272,27 @@ def activity_detail():
                         elif o == 8:
                             image.transpose(Image.ROTATE_90).save(buffer, 'JPEG')
                         buffer.seek(0)
-                        file = buffer
-            output = upload(file, "S3_BUCKET")
-            output_url = str(output)
-            return output_url
-        else:
-            return ''
-
-    def upload(file, bucket_name, acl="public-read"):
-        S3_BUCKET = os.environ.get('S3_BUCKET')
-        S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-        s3 = boto3.client('s3')
-        try:
-            s3.upload_fileobj(
-                file,
-                S3_BUCKET,
-                file.filename,
+            # output = upload(file, "S3_BUCKET")
+            # output_url = str(output)
+            # return output_url
+            S3_BUCKET = os.environ.get('S3_BUCKET')
+            S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+            s3 = boto3.client('s3')
+            obj = s3.Object(
+                bucket_name=S3_BUCKET,
+                Key=file.filename,
                 ExtraArgs={
-                    "ACL": acl,
+                    "ACL": "public-read",
                     "ContentType": file.content_type
                 }
             )
-        except Exception as e:
-            print("Something Happened: ", e)
-            return e
-        return "{}{}".format(S3_LOCATION, file.filename)
+            if buffer is True:
+                obj.put(Body=buffer)
+            else:
+                obj.put(Body=file)
+            return str("{}{}".format(S3_LOCATION, file.filename))
+        else:
+            return ''
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
