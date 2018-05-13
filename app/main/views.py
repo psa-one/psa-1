@@ -270,7 +270,7 @@ def activity_detail():
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
                             image.save('app/static/img/{}'.format(file.filename), 'JPEG')
-                            file = open(r"'app/static/img/{}'.format(file.filename)")
+                            file = open('app/static/img/{}'.format(file.filename), 'rb')
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
