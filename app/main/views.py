@@ -212,93 +212,84 @@ def activity_detail():
     file_user = current_user.id
 
     # ORIGINAL WORKING CODE WITH ROTATION ISSUE
-    # def submit_file():
-    #     if "user_file" not in request.files:
-    #         return ''
-    #     file = request.files["user_file"]
-    #     if file.filename == "":
-    #         return ''
-    #     if file:
-    #         file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
-    #         output = upload(file, "S3_BUCKET")
-    #         output_url = str(output)
-    #         return output_url
-    #     else:
-    #         return ''
-    #
-    # def upload(file, bucket_name, acl="public-read"):
-    #     S3_BUCKET = os.environ.get('S3_BUCKET')
-    #     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-    #     s3 = boto3.client('s3')
-    #     try:
-    #         s3.upload_fileobj(
-    #             file,
-    #             S3_BUCKET,
-    #             file.filename,
-    #             ExtraArgs={
-    #                 "ACL": acl,
-    #                 "ContentType": file.content_type
-    #             }
-    #         )
-    #     except Exception as e:
-    #         print("Something Happened: ", e)
-    #         return e
-    #     return "{}{}".format(S3_LOCATION, file.filename)
-
     def submit_file():
         if "user_file" not in request.files:
             return ''
         file = request.files["user_file"]
-        buffer = None
         if file.filename == "":
             return ''
         if file:
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
-            metaData = {}
-            image = Image.open(file)
-            if hasattr(image, '_getexif'):
-                info = image._getexif()
-                buffer = BytesIO()
-                if info:
-                    for (tag, value) in info.items():
-                        tagname = ExifTags.TAGS.get(tag, tag)
-                        metaData[tagname] = value
-                    if 'Orientation' in metaData:
-                        o = metaData.get('Orientation')
-                        if o == 3:
-                            image.transpose(Image.ROTATE_180).save(buffer, 'JPEG')
-                        elif o == 6:
-                            image.transpose(Image.ROTATE_270).save(buffer, 'JPEG')
-                        elif o == 8:
-                            image.transpose(Image.ROTATE_90).save(buffer, 'JPEG')
-                        buffer.seek(0)
-            S3_BUCKET = os.environ.get('S3_BUCKET')
-            S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-            s3 = boto3.resource('s3')
-            try:
-                if buffer is True:
-                    read_buffer = buffer.read()
-                    read_buffer = read_buffer.encode('utf-8')
-                    s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=read_buffer,
-                                                    ACL="public-read", ContentType=file.content_type)
-                    # obj = s3.Object(
-                    #     bucket_name=S3_BUCKET,
-                    #     Key=file.filename,
-                    #     ACL="public-read",
-                    #     ContentType=file.content_type
-                    # )
-                    # read_buffer = buffer.read()
-                    # read_buffer = read_buffer.encode('utf-8')
-                    # obj.put(Body=read_buffer)
-                else:
-                    s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
-                                                    ACL="public-read", ContentType=file.content_type)
-                return str("{}{}".format(S3_LOCATION, file.filename))
-            except Exception as e:
-                print("Something Happened: ", e)
-                return e
+            output = upload(file, "S3_BUCKET")
+            output_url = str(output)
+            return output_url
         else:
             return ''
+
+    def upload(file, bucket_name, acl="public-read"):
+        S3_BUCKET = os.environ.get('S3_BUCKET')
+        S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+        s3 = boto3.client('s3')
+        try:
+            s3.upload_fileobj(
+                file,
+                S3_BUCKET,
+                file.filename,
+                ExtraArgs={
+                    "ACL": acl,
+                    "ContentType": file.content_type
+                }
+            )
+        except Exception as e:
+            print("Something Happened: ", e)
+            return e
+        return "{}{}".format(S3_LOCATION, file.filename)
+
+    # def submit_file():
+    #     if "user_file" not in request.files:
+    #         return ''
+    #     file = request.files["user_file"]
+    #     buffer = None
+    #     if file.filename == "":
+    #         return ''
+    #     if file:
+    #         file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
+    #         metaData = {}
+    #         image = Image.open(file)
+    #         if hasattr(image, '_getexif'):
+    #             info = image._getexif()
+    #             buffer = BytesIO()
+    #             if info:
+    #                 for (tag, value) in info.items():
+    #                     tagname = ExifTags.TAGS.get(tag, tag)
+    #                     metaData[tagname] = value
+    #                 if 'Orientation' in metaData:
+    #                     o = metaData.get('Orientation')
+    #                     if o == 3:
+    #                         image.transpose(Image.ROTATE_180).save(buffer, 'JPEG')
+    #                     elif o == 6:
+    #                         image.transpose(Image.ROTATE_270).save(buffer, 'JPEG')
+    #                     elif o == 8:
+    #                         image.transpose(Image.ROTATE_90).save(buffer, 'JPEG')
+    #                     buffer.seek(0)
+    #         S3_BUCKET = os.environ.get('S3_BUCKET')
+    #         S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    #         s3 = boto3.resource('s3')
+    #         try:
+    #             if buffer is True:
+    #                 read_buffer = buffer.read()
+    #                 read_buffer = read_buffer.encode('utf-8')
+    #                 s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=read_buffer,
+    #                                                 ACL="public-read", ContentType=file.content_type)
+    #             else:
+    #                 s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
+    #                                                 ACL="public-read", ContentType=file.content_type)
+    #             return str("{}{}".format(S3_LOCATION, file.filename))
+    #         except Exception as e:
+    #             print("Something Happened: ", e)
+    #             return e
+    #     else:
+    #         return ''
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
