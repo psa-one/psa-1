@@ -257,6 +257,7 @@ def activity_detail():
             image = Image.open(file)
             if hasattr(image, '_getexif'):
                 info = image._getexif()
+                buffer = BytesIO()
                 if info:
                     for (tag, value) in info.items():
                         tagname = ExifTags.TAGS.get(tag, tag)
@@ -264,44 +265,37 @@ def activity_detail():
                     if 'Orientation' in metaData:
                         o = metaData.get('Orientation')
                         if o == 3:
-                            image.transpose(Image.ROTATE_180).save(
-                                '_uploads/photos/{}'.format(file.filename)
-                                                                         , 'JPEG')
-
+                            image.transpose(Image.ROTATE_180).save(buffer, 'JPEG')
                         elif o == 6:
-                            image.transpose(Image.ROTATE_270).save(
-                                '_uploads/photos/{}'.format(file.filename)
-                                                                         , 'JPEG')
+                            image.transpose(Image.ROTATE_270).save(buffer, 'JPEG')
                         elif o == 8:
-                            image.transpose(Image.ROTATE_90).save(
-                                '_uploads/photos/{}'.format(file.filename)
-                                                                        , 'JPEG')
-                        file_modified = open(
-                            '_uploads/photos/{}'.format(file.filename), 'rb')
-            output = upload(file_modified, "S3_BUCKET")
+                            image.transpose(Image.ROTATE_90).save(buffer, 'JPEG')
+                        buffer.seek(0)
+                        file = buffer
+            output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
         else:
             return ''
 
-    def upload(file_modified, bucket_name, acl="public-read"):
+    def upload(file, bucket_name, acl="public-read"):
         S3_BUCKET = os.environ.get('S3_BUCKET')
         S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
         s3 = boto3.client('s3')
         try:
             s3.upload_fileobj(
-                file_modified,
+                file,
                 S3_BUCKET,
-                file_modified.filename,
+                file.filename,
                 ExtraArgs={
                     "ACL": acl,
-                    "ContentType": file_modified.content_type
+                    "ContentType": file.content_type
                 }
             )
         except Exception as e:
             print("Something Happened: ", e)
             return e
-        return "{}{}".format(S3_LOCATION, file_modified.filename)
+        return "{}{}".format(S3_LOCATION, file.filename)
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()

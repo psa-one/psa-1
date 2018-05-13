@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fe0ebbde-f658-4d2c-aa4f-e9dfbcaa9436" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/app/main/views.py" afterPath="$PROJECT_DIR$/app/main/views.py" />
-      <change beforePath="$PROJECT_DIR$/data-dev.sqlite" afterPath="$PROJECT_DIR$/data-dev.sqlite" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +41,8 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/main/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="753">
-              <caret line="284" column="21" lean-forward="true" selection-start-line="284" selection-start-column="21" selection-end-line="284" selection-end-column="21" />
+            <state relative-caret-position="770">
+              <caret line="285" column="30" lean-forward="true" selection-start-line="285" selection-start-column="30" selection-end-line="285" selection-end-column="30" />
               <folding>
                 <element signature="e#0#112#0" expanded="true" />
               </folding>
@@ -698,8 +697,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/main/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="284" column="21" lean-forward="true" selection-start-line="284" selection-start-column="21" selection-end-line="284" selection-end-column="21" />
+        <state relative-caret-position="770">
+          <caret line="285" column="30" lean-forward="true" selection-start-line="285" selection-start-column="30" selection-end-line="285" selection-end-column="30" />
           <folding>
             <element signature="e#0#112#0" expanded="true" />
           </folding>
