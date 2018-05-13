@@ -249,15 +249,14 @@ def activity_detail():
 
     def submit_file():
         if request.files.has_key('user_file') and request.files['user_file']:
+            s3 = boto3.client('s3')
             file = request.files['user_file']
-            S3_BUCKET = os.environ.get('S3_BUCKET')
             base_file_name = "%s-%s" % (str(uuid4()), secure_filename(file.filename))
-            file_name = 'http://{}.s3.amazonaws.com/{}_{}_{}'.format(S3_BUCKET, file_user, file_date, base_file_name)
+            file_name = 'tmp/%s' % base_file_name
             file.save(file_name)
             img = Image.open(file_name)
             img2 = img.crop((0, 0, 200, 200))
             img2.save(file_name)
-            s3 = boto3.client('s3')
             resp = s3.upload(base_file_name, open(file_name))
             return redirect(resp.url)
 
