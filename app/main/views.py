@@ -264,14 +264,14 @@ def activity_detail():
                     if 'Orientation' in metaData:
                         o = metaData.get('Orientation')
                         if o == 3:
-                            image.transpose(Image.ROTATE_180).save('app/static/img/{}'.format(file.filename)
+                            image.transpose(Image.ROTATE_180).save('/static/img/{}'.format(file.filename)
                                                                          , 'JPEG')
 
                         elif o == 6:
-                            image.transpose(Image.ROTATE_270).save('app/static/img/{}'.format(file.filename)
+                            image.transpose(Image.ROTATE_270).save('/static/img/{}'.format(file.filename)
                                                                          , 'JPEG')
                         elif o == 8:
-                            image.transpose(Image.ROTATE_90).save('app/static/img/{}'.format(file.filename)
+                            image.transpose(Image.ROTATE_90).save('/static/img/{}'.format(file.filename)
                                                                         , 'JPEG')
                         file_modified = open('/app/static/img/{}'.format(file.filename), 'rb')
             output = upload(file_modified, "S3_BUCKET")
