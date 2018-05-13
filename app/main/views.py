@@ -285,8 +285,9 @@ def activity_detail():
                         ACL="public-read",
                         ContentType=file.content_type
                     )
-                    buffer.read()
-                    obj.put(Body=buffer)
+                    read_buffer = buffer.read()
+                    read_buffer = read_buffer.encode('utf-8')
+                    obj.put(Body=read_buffer)
                 else:
                     s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
                                                     ACL="public-read", ContentType=file.content_type)
