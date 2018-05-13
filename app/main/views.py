@@ -272,24 +272,23 @@ def activity_detail():
                         elif o == 8:
                             image.transpose(Image.ROTATE_90).save(buffer, 'JPEG')
                         buffer.seek(0)
-            # output = upload(file, "S3_BUCKET")
-            # output_url = str(output)
-            # return output_url
             S3_BUCKET = os.environ.get('S3_BUCKET')
             S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
             s3 = boto3.client('s3')
-            obj = s3.Object(
-                bucket_name=S3_BUCKET,
-                Key=file.filename,
-                ExtraArgs={
-                    "ACL": "public-read",
-                    "ContentType": file.content_type
-                }
-            )
+            # obj = s3.Object(
+            #     bucket_name=S3_BUCKET,
+            #     Key=file.filename,
+            #     ExtraArgs={
+            #         "ACL": "public-read",
+            #         "ContentType": file.content_type
+            #     }
+            # )
             if buffer is True:
-                obj.put(Body=buffer)
+                s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=buffer,
+                                                ACL="public-read", ContentType=file.content_type)
             else:
-                obj.put(Body=file)
+                s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
+                                                ACL="public-read", ContentType=file.content_type)
             return str("{}{}".format(S3_LOCATION, file.filename))
         else:
             return ''
