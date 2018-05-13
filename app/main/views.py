@@ -274,13 +274,13 @@ def activity_detail():
                         buffer.seek(0)
             S3_BUCKET = os.environ.get('S3_BUCKET')
             S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-            s3 = boto3.client('s3')
+            s3 = boto3.resource('s3')
             if buffer is True:
                 s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=buffer,
-                                                ACL="public-read", ContentType=file.content_type)
+                                                ACL="public-read")
             else:
                 s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
-                                                ACL="public-read", ContentType=file.content_type)
+                                                ACL="public-read")
             return str("{}{}".format(S3_LOCATION, file.filename))
         else:
             return ''
