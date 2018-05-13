@@ -278,24 +278,24 @@ def activity_detail():
         else:
             return ''
 
-    def upload(file, bucket_name, acl="public-read"):
+    def upload(buffer, bucket_name, acl="public-read"):
         S3_BUCKET = os.environ.get('S3_BUCKET')
         S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
         s3 = boto3.client('s3')
         try:
             s3.upload_fileobj(
-                file,
+                buffer,
                 S3_BUCKET,
-                file.filename,
+                'hello.jpg',
                 ExtraArgs={
                     "ACL": acl,
-                    "ContentType": file.content_type
+                    # "ContentType": file.content_type
                 }
             )
         except Exception as e:
             print("Something Happened: ", e)
             return e
-        return "{}{}".format(S3_LOCATION, file.filename)
+        return "{}{}".format(S3_LOCATION, 'hello.jpg')
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
