@@ -22,6 +22,7 @@ import boto3
 import botocore
 from PIL import Image, ExifTags
 import io
+from uuid import uuid4
 
 
 @main.route("/", methods=['GET', 'POST'])
@@ -211,60 +212,55 @@ def activity_detail():
     file_date = datetime.now()
     file_user = current_user.id
 
-    def submit_file():
-        if "user_file" not in request.files:
-            # return "No user_file key in request.files"
-            return ''
-        file = request.files["user_file"]
-        if file.filename == "":
-            # return "Please select a file"
-            return ''
-        if file:
-            # metaData = {}
-            # image = Image.open(file)
-            # if hasattr(image, '_getexif'):
-            #     info = image._getexif()
-            #     if info:
-            #         for (tag, value) in info.items():
-            #             tagname = ExifTags.TAGS.get(tag, tag)
-            #             metaData[tagname] = value
-            #         if 'Orientation' in metaData:
-            #             o = metaData.get('Orientation')
-            #             if o == 3:
-            #                 image.transpose(Image.ROTATE_180)
-            #             elif o == 6:
-            #                 image.transpose(Image.ROTATE_270)
-            #             elif o == 8:
-            #                 image.transpose(Image.ROTATE_90)
-            #             temp = io.StringIO()
-            #             image.save(temp, file.filename, format="jpeg")
-            #             file = temp.getvalue()
-            #             temp.close()
-            file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
-            output = upload(file, "S3_BUCKET")
-            output_url = str(output)
-            return output_url
-        else:
-            return ''
+    # def submit_file():
+    #     if "user_file" not in request.files:
+    #         # return "No user_file key in request.files"
+    #         return ''
+    #     file = request.files["user_file"]
+    #     if file.filename == "":
+    #         # return "Please select a file"
+    #         return ''
+    #     if file:
+    #         file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
+    #         output = upload(file, "S3_BUCKET")
+    #         output_url = str(output)
+    #         return output_url
+    #     else:
+    #         return ''
+    #
+    # def upload(file, bucket_name, acl="public-read"):
+    #     S3_BUCKET = os.environ.get('S3_BUCKET')
+    #     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    #     s3 = boto3.client('s3')
+    #     try:
+    #         s3.upload_fileobj(
+    #             file,
+    #             S3_BUCKET,
+    #             file.filename,
+    #             ExtraArgs={
+    #                 "ACL": acl,
+    #                 "ContentType": file.content_type
+    #             }
+    #         )
+    #     except Exception as e:
+    #         print("Something Happened: ", e)
+    #         return e
+    #     return "{}{}".format(S3_LOCATION, file.filename)
 
-    def upload(file, bucket_name, acl="public-read"):
-        S3_BUCKET = os.environ.get('S3_BUCKET')
-        S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
-        s3 = boto3.client('s3')
-        try:
-            s3.upload_fileobj(
-                file,
-                S3_BUCKET,
-                file.filename,
-                ExtraArgs={
-                    "ACL": acl,
-                    "ContentType": file.content_type
-                }
-            )
-        except Exception as e:
-            print("Something Happened: ", e)
-            return e
-        return "{}{}".format(S3_LOCATION, file.filename)
+    def submit_file():
+        if request.files.has_key('user_file') and request.files['user_file']:
+            file = request.files['user_file']
+            S3_BUCKET = os.environ.get('S3_BUCKET')
+            base_file_name = "%s-%s" % (str(uuid4()), secure_filename(file.filename))
+            file_name = 'http://{}.s3.amazonaws.com/{}_{}_{}'.format(S3_BUCKET, file_user, file_date, base_file_name)
+            file.save(file_name)
+            img = Image.open(file_name)
+            img2 = img.crop((0, 0, 200, 200))
+            img2.save(file_name)
+            s3 = boto3.client('s3')
+            resp = s3.upload(base_file_name, S3_BUCKET, open(file_name))
+            resp_url = str(resp)
+            return resp_url
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
