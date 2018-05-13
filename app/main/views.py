@@ -240,11 +240,12 @@ def activity_detail():
                     "ContentType": file.content_type
                 }
             )
-        except Exception as e:
+        except Exception:
             flash('Something went wrong with your upload. Please try again.')
             return redirect(url_for('main.activity_detail'))
         return "{}{}".format(S3_LOCATION, file.filename)
 
+    # NOT CURRENTLY WORKING - TRYING TO ROTATE IMAGES BASED ON EXIF ORIENTATION
     # def submit_file():
     #     if "user_file" not in request.files:
     #         return ''
