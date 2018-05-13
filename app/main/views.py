@@ -277,17 +277,19 @@ def activity_detail():
             s3 = boto3.resource('s3')
             try:
                 if buffer is True:
-                    # s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=buffer.read(),
-                    #                                 ACL="public-read")
-                    obj = s3.Object(
-                        bucket_name=S3_BUCKET,
-                        Key=file.filename,
-                        ACL="public-read",
-                        ContentType=file.content_type
-                    )
                     read_buffer = buffer.read()
                     read_buffer = read_buffer.encode('utf-8')
-                    obj.put(Body=read_buffer)
+                    s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=read_buffer,
+                                                    ACL="public-read", ContentType=file.content_type)
+                    # obj = s3.Object(
+                    #     bucket_name=S3_BUCKET,
+                    #     Key=file.filename,
+                    #     ACL="public-read",
+                    #     ContentType=file.content_type
+                    # )
+                    # read_buffer = buffer.read()
+                    # read_buffer = read_buffer.encode('utf-8')
+                    # obj.put(Body=read_buffer)
                 else:
                     s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
                                                     ACL="public-read", ContentType=file.content_type)
