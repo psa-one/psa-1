@@ -220,26 +220,26 @@ def activity_detail():
             # return "Please select a file"
             return ''
         if file:
-            metaData = {}
-            image = Image.open(file)
-            if hasattr(image, '_getexif'):
-                info = image._getexif()
-                if info:
-                    for (tag, value) in info.items():
-                        tagname = ExifTags.TAGS.get(tag, tag)
-                        metaData[tagname] = value
-                    if 'Orientation' in metaData:
-                        o = metaData.get('Orientation')
-                        if o == 3:
-                            image.transpose(Image.ROTATE_180)
-                        elif o == 6:
-                            image.transpose(Image.ROTATE_270)
-                        elif o == 8:
-                            image.transpose(Image.ROTATE_90)
-                        temp = io.StringIO()
-                        image.save(temp, file.filename, format="jpeg")
-                        file = temp.getvalue()
-                        temp.close()
+            # metaData = {}
+            # image = Image.open(file)
+            # if hasattr(image, '_getexif'):
+            #     info = image._getexif()
+            #     if info:
+            #         for (tag, value) in info.items():
+            #             tagname = ExifTags.TAGS.get(tag, tag)
+            #             metaData[tagname] = value
+            #         if 'Orientation' in metaData:
+            #             o = metaData.get('Orientation')
+            #             if o == 3:
+            #                 image.transpose(Image.ROTATE_180)
+            #             elif o == 6:
+            #                 image.transpose(Image.ROTATE_270)
+            #             elif o == 8:
+            #                 image.transpose(Image.ROTATE_90)
+            #             temp = io.StringIO()
+            #             image.save(temp, file.filename, format="jpeg")
+            #             file = temp.getvalue()
+            #             temp.close()
             file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
