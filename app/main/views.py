@@ -258,9 +258,8 @@ def activity_detail():
             img2 = img.crop((0, 0, 200, 200))
             img2.save(file_name)
             s3 = boto3.client('s3')
-            resp = s3.upload(base_file_name, S3_BUCKET, open(file_name))
-            resp_url = str(resp)
-            return resp_url
+            resp = s3.upload(base_file_name, open(file_name))
+            return redirect(resp.url)
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
