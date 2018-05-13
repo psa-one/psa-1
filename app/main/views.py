@@ -269,33 +269,32 @@ def activity_detail():
                             image.transpose(Image.ROTATE_270)
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
-                        buffer = BytesIO()
-                        image.save(buffer, 'JPEG')
-                        buffer.seek(0)
+                            image.save('app/static/img/{}'.format(file.filename), 'JPEG')
+                            file = open(r"'app/static/img/{}'.format(file.filename)")
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
         else:
             return ''
 
-    def upload(buffer, bucket_name, acl="public-read"):
+    def upload(file, bucket_name, acl="public-read"):
         S3_BUCKET = os.environ.get('S3_BUCKET')
         S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
         s3 = boto3.client('s3')
         try:
             s3.upload_fileobj(
-                buffer,
+                file,
                 S3_BUCKET,
-                'hello.jpg',
+                file.filename,
                 ExtraArgs={
                     "ACL": acl,
-                    # "ContentType": file.content_type
+                    "ContentType": file.content_type
                 }
             )
         except Exception as e:
             print("Something Happened: ", e)
             return e
-        return "{}{}".format(S3_LOCATION, 'hello.jpg')
+        return "{}{}".format(S3_LOCATION, file.filename)
 
     if activity.activity_name == 'Audio':
         form = Audio2ActivityForm()
