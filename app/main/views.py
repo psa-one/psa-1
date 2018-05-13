@@ -221,27 +221,6 @@ def activity_detail():
             return ''
         if file:
             metaData = {}
-            # image = Image.open(file)
-            # if hasattr(image, '_getexif'):
-            #     info = image._getexif()
-            #     if info:
-            #         for (tag, value) in info.items():
-            #             tagname = ExifTags.TAGS.get(tag, tag)
-            #             metaData[tagname] = value
-            #         if 'Orientation' in metaData:
-            #             o = metaData.get('Orientation')
-            #             if o == 3:
-            #                 image.transpose(Image.ROTATE_180)
-            #             elif o == 6:
-            #                 image.transpose(Image.ROTATE_270)
-            #             elif o == 8:
-            #                 image.transpose(Image.ROTATE_90)
-            #             image.save("image.jpg", "jpeg")
-            # file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
-            # output = upload(file, "S3_BUCKET")
-            # output_url = str(output)
-            # return output_url
-            file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
             image = Image.open(file)
             if hasattr(image, '_getexif'):
                 info = image._getexif()
@@ -257,15 +236,14 @@ def activity_detail():
                             image.transpose(Image.ROTATE_270)
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
-                        image.save(file)
-                        output = upload(file.filename, open(file), "S3_BUCKET")
-                        output_url = str(output)
-                        return output_url
-            else:
-                # file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
-                output = upload(file, "S3_BUCKET")
-                output_url = str(output)
-                return output_url
+                        temp = io.StringIO()
+                        image.save(temp, file.filename, format="jpeg")
+                        file = temp.getvalue()
+                        temp.close()
+            file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
+            output = upload(file, "S3_BUCKET")
+            output_url = str(output)
+            return output_url
         else:
             return ''
 
