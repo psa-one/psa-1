@@ -272,7 +272,7 @@ def activity_detail():
                         buffer = BytesIO()
                         image.save(buffer, format='jpeg')
                         buffer.seek(0)
-                        file = BytesIO(buffer)
+                        file = buffer.getvalue()
             output = upload(file, "S3_BUCKET")
             output_url = str(output)
             return output_url
