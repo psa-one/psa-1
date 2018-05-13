@@ -265,19 +265,19 @@ def activity_detail():
                         o = metaData.get('Orientation')
                         if o == 3:
                             image.transpose(Image.ROTATE_180).save(
-                                'http://psa-one.herokuapp.com/app/static/img/{}'.format(file.filename)
+                                '_uploads/photos/{}'.format(file.filename)
                                                                          , 'JPEG')
 
                         elif o == 6:
                             image.transpose(Image.ROTATE_270).save(
-                                'http://psa-one.herokuapp.com/app/static/img/{}'.format(file.filename)
+                                '_uploads/photos/{}'.format(file.filename)
                                                                          , 'JPEG')
                         elif o == 8:
                             image.transpose(Image.ROTATE_90).save(
-                                'http://psa-one.herokuapp.com/app/static/img/{}'.format(file.filename)
+                                '_uploads/photos/{}'.format(file.filename)
                                                                         , 'JPEG')
                         file_modified = open(
-                            'http://psa-one.herokuapp.com/app/static/img/{}'.format(file.filename), 'rb')
+                            '_uploads/photos/{}'.format(file.filename), 'rb')
             output = upload(file_modified, "S3_BUCKET")
             output_url = str(output)
             return output_url
