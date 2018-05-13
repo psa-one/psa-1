@@ -262,7 +262,7 @@ def activity_detail():
                         output_url = str(output)
                         return output_url
             else:
-                file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
+                # file.filename = secure_filename(str(file_user) + '_' + str(file_date) + '_' + file.filename)
                 output = upload(file, "S3_BUCKET")
                 output_url = str(output)
                 return output_url
