@@ -270,7 +270,7 @@ def activity_detail():
                         elif o == 8:
                             image.transpose(Image.ROTATE_90)
                         buffer = BytesIO()
-                        image.save(buffer, format='jpg')
+                        image.save(buffer, format='jpeg')
                         buffer.seek(0)
                         file.set_contents_from_file(buffer)
             output = upload(file, "S3_BUCKET")
