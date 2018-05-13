@@ -241,7 +241,7 @@ def activity_detail():
                 }
             )
         except Exception as e:
-            flash('This profile has been successfully updated.')
+            flash('Something went wrong with your upload. Please try again.')
             return redirect(url_for('main.activity_detail'))
         return "{}{}".format(S3_LOCATION, file.filename)
 
