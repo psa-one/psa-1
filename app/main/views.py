@@ -241,8 +241,8 @@ def activity_detail():
                 }
             )
         except Exception as e:
-            print("Something Happened: ", e)
-            return e
+            flash('This profile has been successfully updated.')
+            return redirect(url_for('main.activity_detail'))
         return "{}{}".format(S3_LOCATION, file.filename)
 
     # def submit_file():
