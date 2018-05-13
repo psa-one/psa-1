@@ -282,12 +282,13 @@ def activity_detail():
                     obj = s3.Object(
                         bucket_name=S3_BUCKET,
                         Key=file.filename,
-                        ACL="public-read"
+                        ACL="public-read",
+                        ContentType=file.content_type
                     )
                     obj.put(Body=buffer.read())
                 else:
                     s3.Bucket(S3_BUCKET).put_object(Key=file.filename, Body=file,
-                                                    ACL="public-read")
+                                                    ACL="public-read", ContentType=file.content_type)
                 return str("{}{}".format(S3_LOCATION, file.filename))
             except Exception as e:
                 print("Something Happened: ", e)
